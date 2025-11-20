@@ -1,8 +1,6 @@
 # 🏥 Clínica Vitalis (Hospital Staff Manager)
 
-![Status](https://img.shields.io/badge/Status-Completed-success)
 ![Tech](https://img.shields.io/badge/Stack-MERN-blue)
-![License](https://img.shields.io/badge/License-MIT-green)
 
 **Clínica Vitalis** es una plataforma administrativa diseñada para optimizar el flujo de trabajo interno. Este proyecto resuelve la necesidad de gestionar el personal médico y realizar la admisión de pacientes, enfocándose en la **asignación eficiente de recursos**.
 
