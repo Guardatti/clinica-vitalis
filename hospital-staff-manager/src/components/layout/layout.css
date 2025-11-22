@@ -1,0 +1,7 @@
+.container-layout {
+    display: flex;
+}
+
+.container-layout-1 {
+    flex: 1;
+}
