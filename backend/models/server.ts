@@ -1,4 +1,5 @@
 import express, { Express } from "express"
+import cors from "cors"
 import { sequelize } from "../database/config";
 import { Professionals } from "./professionals";
 import { Patients } from "./patients";
@@ -40,6 +41,7 @@ export class Server {
 
     middlewares(): void {
         this.app.use(express.json())
+        this.app.use(cors())
     }
 
     listen(): void {
