@@ -2,10 +2,12 @@ import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../database/config";
 import { Patients } from "./patients";
 import { Professionals } from "./professionals";
+import { STATES } from "../helpers/constants";
 
 interface IShifts {
     id: number;
-    fecha: Date;
+    date: Date;
+    state: string;
     description: string;
     professionalID: number;
     patientID: number;
@@ -21,8 +23,13 @@ export const Shifts = sequelize.define<ShiftInstance>('Turnos', {
         primaryKey: true,
         autoIncrement: true,
     },
-    fecha: {
+    date: {
         type: DataTypes.DATE,
+        allowNull: false,
+    },
+    state: {
+        type: DataTypes.STRING,
+        defaultValue: STATES.pending,
         allowNull: false,
     },
     description: {

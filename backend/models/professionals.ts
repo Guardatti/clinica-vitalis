@@ -32,6 +32,7 @@ export const Professionals = sequelize.define<ProfessionalInstance>('Profesional
     },
     dni: {
         type: DataTypes.INTEGER,
+        unique: true,
         allowNull: false,
     },
     birthdate: {

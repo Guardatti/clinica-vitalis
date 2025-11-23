@@ -33,6 +33,7 @@ export const Patients = sequelize.define<PatientInstance>('Pacientes', {
     },
     dni: {
         type: DataTypes.INTEGER,
+        unique: true,
         allowNull: false,
     },
     birthdate: {
