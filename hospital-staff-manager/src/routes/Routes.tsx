@@ -1,7 +1,11 @@
 import React from 'react'
-import { BrowserRouter, Route, Routes as ReactRoutes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes as ReactRoutes, Navigate } from 'react-router-dom'
 import Layout from '../components/layout/Layout'
 import Home from '../pages/Home/Home'
+import Patients from '../pages/Patients/Patients'
+import Login from '../pages/Login/Login'
+import Register from '../pages/Register/Register'
+import ProtectedRoute from '../components/protectedRoute/protectedRoute'
 
 
 
@@ -14,7 +18,42 @@ const Routes: React.FC = () => {
 
                 <ReactRoutes>
                     
-                    <Route path='/' element={<Home/>} />
+                    <Route path='/' element={
+                        <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
+                            <Home/>
+                        </ProtectedRoute>
+                    }
+                    />
+
+                    <Route path='/pacientes' element={
+                        <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
+                            <Patients/>
+                        </ProtectedRoute>
+                    } />
+
+                    <Route path='/profesionales' element={
+                        <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
+                            <Home/>
+                        </ProtectedRoute>
+                    } />
+
+                    <Route path='/turnos' element={
+                        <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
+                            <Home/>
+                        </ProtectedRoute>
+                    } />
+
+                    <Route path='/configuraciones' element={
+                        <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
+                            <Home/>
+                        </ProtectedRoute>
+                    } />
+
+                    <Route path='cuenta'>
+                        <Route index element={<Navigate to="inicio-de-sesion" replace />} />
+                        <Route path="inicio-de-sesion" element={<Login />}/>
+                        <Route path="registro" element={<Register />} />
+                    </Route>
 
                 </ReactRoutes>
 

@@ -5,6 +5,10 @@
     --bg-navbar: #FFFFFF;
     --color-text: #000000;
     --color-mode: #000000;
+    --color-border: #000000;
+    --bg-button-login-register: #000000;
+    --color-text-button-login-register: #FFFFFF;
+    --color-spinner: #FFFFFF;
 }
 
 /*Dark*/
@@ -14,6 +18,10 @@ body.dark {
     --bg-navbar: #1A1F2E;
     --color-text: #FFFFFF;
     --color-mode: #FFFFFF;
+    --color-border: #FFFFFF;
+    --bg-button-login-register: #FFFFFF;
+    --color-text-button-login-register: #000000;
+    --color-spinner: #1A1F2E;
 }
 
 body {

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { FaSun, FaMoon } from "react-icons/fa";
-import './aside.css'
-import { aside } from '../../utils/aside';
+import { Link, useNavigate } from 'react-router-dom'
+import { FaSun, FaMoon, FaSignOutAlt } from "react-icons/fa";
+import './aside.css';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { asideWithCurrentUser, asideWithoutCurrentUser } from '../../utils/aside';
+import { setCurrentUser } from '../../redux/user/userSlice';
 
 
 interface Props {
@@ -15,6 +17,12 @@ const Aside: React.FC<Props> = ({ isOpen }) => {
     const [theme, setTheme] = useState(() => {
         return localStorage.getItem('theme') || 'light'
     })
+
+    const currentUser = useAppSelector(state => state.user.currentUser)
+
+    const dispatch = useAppDispatch()
+
+    const navigate = useNavigate()
 
     useEffect(() => {
 
@@ -46,13 +54,27 @@ const Aside: React.FC<Props> = ({ isOpen }) => {
             <nav>
                 <ul>
                     {
-                        aside.map((x) => {
+                        currentUser ?
+                        asideWithCurrentUser.filter((z) => z.text !== "Cerrar sesión").map((x) => {
                             return(
                                 <li key={x.id}>
                                     <Link to={x.to} className='aside-link'>{React.createElement(x.icon)}{x.text}</Link>
                                 </li>
                             )
                         })
+                        :
+                        asideWithoutCurrentUser.map((x) => {
+                            return(
+                                <li key={x.id}>
+                                    <Link to={x.to} className='aside-link'>{React.createElement(x.icon)}{x.text}</Link>
+                                </li>
+                            )
+                        })
+                    }
+                    { currentUser &&
+                        <li>
+                            <span className='aside-link' style={{cursor: "pointer"}} onClick={() => {dispatch(setCurrentUser(null)) ; navigate('/cuenta/inicio-de-sesion')}}><FaSignOutAlt />Cerrar sesión</span>
+                        </li>
                     }
                     <li>
                         <button onClick={toggleTheme} className='aside-button'>
