@@ -4,6 +4,7 @@ import { collectionErrors } from "../middlewares/collectionErrors";
 import { check } from "express-validator";
 import { existDNIProfessional, existDNIProfessionalById } from "../helpers/validationsDB";
 import { createProfessional, getProfessionals, updateProfessional } from "../controllers/professionals";
+import { isAdmin } from "../middlewares/validatorAdmin";
 
 
 
@@ -14,16 +15,17 @@ router.get('/',
         validatorJWT,
         collectionErrors
     ],
-    createProfessional
+    getProfessionals
 )
 
 router.post('/',
     [
         validatorJWT,
+        isAdmin,
         check("name", "El nombre es obligatorio").not().isEmpty(),
         check("surname", "El apellido es obligatorio").not().isEmpty(),
         check("dni", "El DNI es obligatorio").not().isEmpty(),
-        check("dni", "El DNI es obligatorio").isLength({min: 7}),
+        check("dni", "DNI no válido").isLength({min: 7}),
         check("dni").custom(existDNIProfessional),
         check("birthdate", "La fecha de nacimiento es obligatoria").not().isEmpty(),
         check("gender", "El genero es obligatorio").not().isEmpty(),
@@ -31,16 +33,17 @@ router.post('/',
         check("speciality", "La especialidad es obligatoria").not().isEmpty(),
         collectionErrors
     ],
-    getProfessionals
+    createProfessional
 )
 
-router.patch('/',
+router.patch('/:id',
     [
         validatorJWT,
+        isAdmin,
         check("name", "El nombre es obligatorio").not().isEmpty(),
         check("surname", "El apellido es obligatorio").not().isEmpty(),
         check("dni", "El DNI es obligatorio").not().isEmpty(),
-        check("dni", "El DNI es obligatorio").isLength({min: 7}),
+        check("dni", "DNI no válido").isLength({min: 7}),
         check("dni").custom(existDNIProfessionalById),
         check("birthdate", "La fecha de nacimiento es obligatoria").not().isEmpty(),
         check("gender", "El genero es obligatorio").not().isEmpty(),

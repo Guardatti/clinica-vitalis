@@ -3,6 +3,7 @@ import { validatorJWT } from "../middlewares/validatorJWT";
 import { collectionErrors } from "../middlewares/collectionErrors";
 import { check } from "express-validator";
 import { createShift, getShifts, updateShift } from "../controllers/shifts";
+import { isAdmin } from "../middlewares/validatorAdmin";
 
 
 
@@ -19,6 +20,7 @@ router.get('/',
 router.post('/',
     [
         validatorJWT,
+        isAdmin,
         check("patientID", "El paciente es obligatorio").not().isEmpty(),
         check("professionalID", "El profesional es obligatorio").not().isEmpty(),
         check("date", "La fecha es obligatoria").not().isEmpty(),
@@ -29,9 +31,10 @@ router.post('/',
     createShift
 )
 
-router.patch('/',
+router.patch('/:id',
     [
         validatorJWT,
+        isAdmin,
         check("patientID", "El paciente es obligatorio").not().isEmpty(),
         check("professionalID", "El profesional es obligatorio").not().isEmpty(),
         check("date", "La fecha es obligatoria").not().isEmpty(),

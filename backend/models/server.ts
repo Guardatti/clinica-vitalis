@@ -5,6 +5,9 @@ import { Professionals } from "./professionals";
 import { Patients } from "./patients";
 import { Shifts } from "./shifts";
 import authRoutes from "../routes/auth"
+import patientsRoutes from "../routes/patients"
+import professionalsRoutes from "../routes/professionals"
+import shiftsRoutes from "../routes/shifts"
 
 
 
@@ -57,9 +60,9 @@ export class Server {
 
     routes(): void {
         this.app.use(this.authPath, authRoutes)
-        this.app.use(this.patientsPath, authRoutes)
-        this.app.use(this.professionalsPath, authRoutes)
-        this.app.use(this.shiftsPath, authRoutes)
+        this.app.use(this.patientsPath, patientsRoutes)
+        this.app.use(this.professionalsPath, professionalsRoutes)
+        this.app.use(this.shiftsPath, shiftsRoutes)
     }
 
     listen(): void {

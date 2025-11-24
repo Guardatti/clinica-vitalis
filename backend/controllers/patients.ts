@@ -36,9 +36,13 @@ export const getPatients = async (req: Request, res: Response) => {
         if (search) {
             filter[Op.or] = [
                 {
-                    name: {[Op.like]: `%${search}%`},
-                    surnamne: {[Op.like]: `%${search}%`},
-                    dni: {[Op.like]: `%${search}%`},
+                    name: { [Op.like]: `%${search}%` }
+                },
+                {
+                    surname: { [Op.like]: `%${search}%` } 
+                },
+                {
+                    dni: { [Op.like]: `%${search}%` }
                 }
             ]
         }

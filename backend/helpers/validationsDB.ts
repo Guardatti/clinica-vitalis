@@ -74,7 +74,7 @@ export const existDNIProfessional = async (dni: number): Promise<void> => {
 
 export const existDNIProfessionalById = async (dni: number, { req }: any) => {
 
-    const isExisting = await Patients.findOne({
+    const isExisting = await Professionals.findOne({
         where: {
             dni: dni
         }
