@@ -2,7 +2,7 @@ import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../database/config";
 
 
-interface IPatients {
+export interface IPatients {
     id: number;
     name: string;
     surname: string;

@@ -4,7 +4,7 @@ import { Patients } from "./patients";
 import { Professionals } from "./professionals";
 import { STATES } from "../helpers/constants";
 
-interface IShifts {
+export interface IShifts {
     id: number;
     date: Date;
     state: string;

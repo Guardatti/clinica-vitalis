@@ -2,7 +2,7 @@ import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../database/config";
 import { ROLES } from "../helpers/constants";
 
-interface IUser {
+export interface IUser {
     id: number;
     name: string;
     surname: string;

@@ -1,7 +1,7 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../database/config";
 
-interface IProfessionals {
+export interface IProfessionals {
     id: number;
     name: string;
     surname: string;

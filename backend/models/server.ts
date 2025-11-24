@@ -4,19 +4,30 @@ import { sequelize } from "../database/config";
 import { Professionals } from "./professionals";
 import { Patients } from "./patients";
 import { Shifts } from "./shifts";
+import authRoutes from "../routes/auth"
+
 
 
 export class Server {
 
     app: Express;
     port: string | number | undefined;
+    authPath: string;
+    patientsPath: string;
+    professionalsPath: string;
+    shiftsPath: string;
 
     constructor() {
         this.app = express();
         this.port = process.env.PORT
+        this.authPath = '/auth';
+        this.patientsPath = '/patients';
+        this.professionalsPath = '/professionals';
+        this.shiftsPath = '/shifts';
         this.establishAssociations();
         this.connectionToDB();
         this.middlewares();
+        this.routes();
     }
 
     establishAssociations(): void {
@@ -42,6 +53,13 @@ export class Server {
     middlewares(): void {
         this.app.use(express.json())
         this.app.use(cors())
+    }
+
+    routes(): void {
+        this.app.use(this.authPath, authRoutes)
+        this.app.use(this.patientsPath, authRoutes)
+        this.app.use(this.professionalsPath, authRoutes)
+        this.app.use(this.shiftsPath, authRoutes)
     }
 
     listen(): void {
