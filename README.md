@@ -8,10 +8,9 @@ El objetivo principal fue construir un **MVP (Producto Mínimo Viable)** robusto
 
 ## ✨ Características Principales
 
-* **👨‍⚕️ Gestión de Profesionales:** Alta, baja y modificación de médicos con categorización por especialidad (Cardiología, Pediatría, etc.).
+* **👨‍⚕️ Gestión de Profesionales:** Alta y modificación de médicos con categorización por especialidad (Cardiología, Pediatría, etc.).
 * **🏥 Admisión de Pacientes:** Sistema de registro con vinculación dinámica a médico de cabecera.
-* **🔗 Asignación Relacional:** Uso de `population` en MongoDB para vincular pacientes con doctores y mantener la integridad de los datos.
-* **🔍 Filtrado Inteligente:** Búsqueda de pacientes por médico asignado o especialidad requerida.
+* **🔍 Filtrado Inteligente:** Búsqueda por filtros para pacientes, profesionales y turnos.
 
 ## 🛠️ Stack Tecnológico
 
@@ -19,7 +18,7 @@ Este proyecto fue construido siguiendo las mejores prácticas de desarrollo mode
 
 * **Frontend:** React + TypeScript + Vite (SWC)
 * **Backend:** Node.js + Express
-* **Base de Datos:** MongoDB + Mongoose (Modelado de datos)
+* **Base de Datos:** SQLite + Sequelize (Modelado de datos)
 * **Estado:** Redux Toolkit (Gestión de estado global)
   
 ---
