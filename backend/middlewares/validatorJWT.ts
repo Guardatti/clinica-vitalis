@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { IUser, User } from "../models/user";
-import { error } from "console";
 
 
 export const validatorJWT = async (req: Request, res: Response, next: NextFunction) => {

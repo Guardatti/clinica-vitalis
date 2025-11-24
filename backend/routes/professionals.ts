@@ -3,6 +3,7 @@ import { validatorJWT } from "../middlewares/validatorJWT";
 import { collectionErrors } from "../middlewares/collectionErrors";
 import { check } from "express-validator";
 import { existDNIProfessional, existDNIProfessionalById } from "../helpers/validationsDB";
+import { createProfessional, getProfessionals, updateProfessional } from "../controllers/professionals";
 
 
 
@@ -13,7 +14,7 @@ router.get('/',
         validatorJWT,
         collectionErrors
     ],
-
+    createProfessional
 )
 
 router.post('/',
@@ -30,6 +31,7 @@ router.post('/',
         check("speciality", "La especialidad es obligatoria").not().isEmpty(),
         collectionErrors
     ],
+    getProfessionals
 )
 
 router.patch('/',
@@ -46,7 +48,7 @@ router.patch('/',
         check("speciality", "La especialidad es obligatoria").not().isEmpty(),
         collectionErrors
     ],
-    
+    updateProfessional
 )
 
 export default router;

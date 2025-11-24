@@ -2,6 +2,7 @@ import { Router } from "express";
 import { validatorJWT } from "../middlewares/validatorJWT";
 import { collectionErrors } from "../middlewares/collectionErrors";
 import { check } from "express-validator";
+import { createShift, getShifts, updateShift } from "../controllers/shifts";
 
 
 
@@ -12,7 +13,7 @@ router.get('/',
         validatorJWT,
         collectionErrors
     ],
-
+    getShifts
 )
 
 router.post('/',
@@ -25,7 +26,7 @@ router.post('/',
         check("state", "El estado es obligatorio").not().isEmpty(),
         collectionErrors
     ],
-    
+    createShift
 )
 
 router.patch('/',
@@ -38,7 +39,7 @@ router.patch('/',
         check("state", "El estado es obligatorio").not().isEmpty(),
         collectionErrors
     ],
-    
+    updateShift
 )
 
 export default router;

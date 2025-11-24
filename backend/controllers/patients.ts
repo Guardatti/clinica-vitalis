@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Patients } from "../models/patients";
+import { Op } from "sequelize";
 
 
 
@@ -28,7 +29,31 @@ export const getPatients = async (req: Request, res: Response) => {
 
     try {
         
-        const patients = await Patients.findAll()
+        const {search, gender, socialWork} = req.query
+
+        const filter: any = {}
+
+        if (search) {
+            filter[Op.or] = [
+                {
+                    name: {[Op.like]: `%${search}%`},
+                    surnamne: {[Op.like]: `%${search}%`},
+                    dni: {[Op.like]: `%${search}%`},
+                }
+            ]
+        }
+
+        if (gender) {
+            filter.gender = gender
+        }
+
+        if (socialWork) {
+            filter.socialWork = socialWork
+        }
+
+        const patients = await Patients.findAll({
+            where: filter
+        })
 
         if (!patients) {
             res.status(404).json({
@@ -58,11 +83,18 @@ export const updatePatient = async (req: Request, res: Response) => {
 
     try {
 
+        if (!id || isNaN(Number(id))) {
+            res.status(400).json({
+                msg: "Debe enviar un ID y debe ser numérico"
+            })
+            return
+        }
+
         const patient = await Patients.findByPk(id)
 
         if (!patient) {
             res.status(404).json({
-                msg: "El paciente no esta cargado en el sistema"
+                msg: "El paciente no está cargado en el sistema"
             })
             return
         }
