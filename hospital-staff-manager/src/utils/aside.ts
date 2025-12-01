@@ -1,6 +1,8 @@
 import type { IconType } from "react-icons";
-import { FaHospital, FaUserMd, FaProcedures, FaUserAlt, FaUserPlus } from "react-icons/fa";
+import { FaHospital, FaUserMd, FaProcedures, FaUserAlt, FaUserPlus, FaBriefcaseMedical } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
+import { FaCalendarCheck } from "react-icons/fa6";
+
 
 
 
@@ -32,6 +34,18 @@ export const asideWithCurrentUser: IAsideItem[] = [
     },
     {
         id: 4,
+        to: '/turnos',
+        icon: FaCalendarCheck,
+        text: 'Turnos'
+    },
+    {
+        id: 5,
+        to: '/obras_sociales',
+        icon: FaBriefcaseMedical,
+        text: 'Obras sociales'
+    },
+    {
+        id: 6,
         to: '/configuraciones',
         icon: IoMdSettings,
         text: 'Configuración'
@@ -40,31 +54,13 @@ export const asideWithCurrentUser: IAsideItem[] = [
 
 export const asideWithoutCurrentUser: IAsideItem[] = [
     {
-        id: 5,
-        to: '/cuenta/inicio-de-sesion',
-        icon: FaHospital,
-        text: 'Inicio'
-    },
-    {
-        id: 6,
-        to: '/cuenta/inicio-de-sesion',
-        icon: FaUserMd,
-        text: 'Profesionales'
-    },
-    {
         id: 7,
-        to: '/cuenta/inicio-de-sesion',
-        icon: FaProcedures,
-        text: 'Pacientes'
-    },
-    {
-        id: 8,
         to: '/cuenta/inicio-de-sesion',
         icon: FaUserAlt,
         text: 'Iniciar sesión'
     },
     {
-        id: 9,
+        id: 8,
         to: '/cuenta/registro',
         icon: FaUserPlus,
         text: 'Registrarse'

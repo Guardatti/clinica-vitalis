@@ -1,5 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../database/config";
+import { STATES_PROFESSIONALS } from "../helpers/constants";
 
 export interface IProfessionals {
     id: number;
@@ -9,7 +10,10 @@ export interface IProfessionals {
     birthdate: Date;
     gender: string;
     address: string;
+    phone: string;
+    email: string;
     speciality: string;
+    state?: string;
 }
 
 interface IProfessionalsAttributes extends Optional<IProfessionals, 'id'> {}
@@ -47,8 +51,24 @@ export const Professionals = sequelize.define<ProfessionalInstance>('Profesional
         type: DataTypes.STRING,
         allowNull: false,
     },
+    phone: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            isEmail: true
+        }
+    },
     speciality: {
         type: DataTypes.STRING,
         allowNull: false,
+    },
+    state: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: STATES_PROFESSIONALS.active
     }
 })

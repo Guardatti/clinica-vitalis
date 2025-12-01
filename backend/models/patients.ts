@@ -1,5 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../database/config";
+import { STATES_PATIENTS } from "../helpers/constants";
 
 
 export interface IPatients {
@@ -10,7 +11,10 @@ export interface IPatients {
     birthdate: Date;
     gender: string;
     address: string;
-    socialWork: string;
+    phone: string;
+    email: string;
+    socialWorkId: number;
+    state?: string;
 }
 
 interface IPatientsAttributes extends Optional<IPatients, 'id'> {}
@@ -48,8 +52,28 @@ export const Patients = sequelize.define<PatientInstance>('Pacientes', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    socialWork: {
+    phone: {
         type: DataTypes.STRING,
         allowNull: false,
+    },
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            isEmail: true
+        }
+    },
+    socialWorkId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: "Obras_Sociales",
+            key: "id"
+        }
+    },
+    state: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: STATES_PATIENTS.active
     }
 })

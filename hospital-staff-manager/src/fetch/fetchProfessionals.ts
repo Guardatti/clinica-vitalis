@@ -9,7 +9,7 @@ interface IData {
 
 }
 
-export const getPatients = async (currentUser: IUser | null, data: IData = {}) => {
+export const getProfessionals = async (currentUser: IUser | null, data: IData = {}) => {
 
     const params: Record<string, string> = {};
     
@@ -29,7 +29,7 @@ export const getPatients = async (currentUser: IUser | null, data: IData = {}) =
 
     try {
 
-        const data = await fetch(`http://localhost:8080/patients?${queryString}`, {
+        const response = await fetch(`http://localhost:8080/professionals?${queryString}`, {
             method: "GET",
             headers: {
             "Content-Type": "application/json",
@@ -37,13 +37,11 @@ export const getPatients = async (currentUser: IUser | null, data: IData = {}) =
             }
         })
 
-        if (!data) {
-            throw new Error('No hay pacientes cargados en el sistema');
+        if (!response) {
+            throw new Error('No hay profesionales cargados en el sistema');
         }
 
-        const response = await data.json()
-
-        return response.patients
+        return await response.json()
         
     } catch (error) {
         console.log(error);       

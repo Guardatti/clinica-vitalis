@@ -1,5 +1,5 @@
 header {
-    background-color: var(--bg-navbar);
+    background: var(--bg-navbar);
     height: 70px;
     width: 100%;
     position: sticky;

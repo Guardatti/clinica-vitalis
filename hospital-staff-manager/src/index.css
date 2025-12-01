@@ -9,6 +9,7 @@
     --bg-button-login-register: #000000;
     --color-text-button-login-register: #FFFFFF;
     --color-spinner: #FFFFFF;
+    --bg-navlink: linear-gradient(90deg, #e3a3ff, #c372ff);
 }
 
 /*Dark*/
@@ -22,6 +23,7 @@ body.dark {
     --bg-button-login-register: #FFFFFF;
     --color-text-button-login-register: #000000;
     --color-spinner: #1A1F2E;
+    --bg-navlink: linear-gradient(90deg, #2f41e0, rgb(23, 34, 131));
 }
 
 body {

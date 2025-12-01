@@ -1,5 +1,6 @@
 import { IPatients, Patients } from "../models/patients"
 import { IProfessionals, Professionals } from "../models/professionals"
+import { ISocialsWorks, SocialsWorks } from "../models/socialsWorks"
 import { IUser, User } from "../models/user"
 
 
@@ -56,6 +57,7 @@ export const existDNIPatientById = async (dni: number, { req }: any) => {
 
 }
 
+
 export const existDNIProfessional = async (dni: number): Promise<void> => {
 
     const isExisting: IProfessionals | null = await Professionals.findOne({
@@ -88,6 +90,42 @@ export const existDNIProfessionalById = async (dni: number, { req }: any) => {
             
         }
 
+    }
+
+}
+
+export const existNameSocialWork = async (name: string, { req }: any) => {
+
+    const isExisting: ISocialsWorks | null = await SocialsWorks.findOne({
+        where: {
+            name: name
+        }
+    });
+
+    if (isExisting) {
+
+        throw new Error(`${name} ya está registrado`)
+
+    }
+
+}
+
+export const existNameSocialWorkById = async (name: string, { req }: any) => {
+
+    const isExisting: ISocialsWorks | null = await SocialsWorks.findOne({
+        where: {
+            name: name
+        }
+    });
+
+    if (isExisting) {
+
+        if (isExisting.id !== Number(req.params.id)) {
+
+            throw new Error(`${name} ya está en uso por otro profesional`);
+
+        }
+        
     }
 
 }

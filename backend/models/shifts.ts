@@ -2,7 +2,7 @@ import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../database/config";
 import { Patients } from "./patients";
 import { Professionals } from "./professionals";
-import { STATES } from "../helpers/constants";
+import { STATES_SHIFTS } from "../helpers/constants";
 
 export interface IShifts {
     id: number;
@@ -10,7 +10,7 @@ export interface IShifts {
     professionalID: number;
     date: Date;
     description: string;
-    state: string;
+    state?: string;
 }
 
 interface IShiftsAttributes extends Optional<IShifts, 'id'> {}
@@ -49,7 +49,7 @@ export const Shifts = sequelize.define<ShiftInstance>('Turnos', {
     },
     state: {
         type: DataTypes.STRING,
-        defaultValue: STATES.pending,
+        defaultValue: STATES_SHIFTS.pending,
         allowNull: false,
     }
 })

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { FaSun, FaMoon, FaSignOutAlt } from "react-icons/fa";
 import './aside.css';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
@@ -58,7 +58,7 @@ const Aside: React.FC<Props> = ({ isOpen }) => {
                         asideWithCurrentUser.filter((z) => z.text !== "Cerrar sesión").map((x) => {
                             return(
                                 <li key={x.id}>
-                                    <Link to={x.to} className='aside-link'>{React.createElement(x.icon)}{x.text}</Link>
+                                    <NavLink to={x.to} className={({ isActive }) => isActive ? "aside-link-active" : "aside-link"}>{React.createElement(x.icon)}{x.text}</NavLink>
                                 </li>
                             )
                         })
@@ -66,7 +66,7 @@ const Aside: React.FC<Props> = ({ isOpen }) => {
                         asideWithoutCurrentUser.map((x) => {
                             return(
                                 <li key={x.id}>
-                                    <Link to={x.to} className='aside-link'>{React.createElement(x.icon)}{x.text}</Link>
+                                    <NavLink to={x.to} className={({ isActive }) => isActive ? "aside-link-active" : "aside-link"}>{React.createElement(x.icon)}{x.text}</NavLink>
                                 </li>
                             )
                         })

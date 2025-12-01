@@ -25,7 +25,6 @@ router.post('/',
         check("professionalID", "El profesional es obligatorio").not().isEmpty(),
         check("date", "La fecha es obligatoria").not().isEmpty(),
         check("description", "La descripción es obligatoria").not().isEmpty(),
-        check("state", "El estado es obligatorio").not().isEmpty(),
         collectionErrors
     ],
     createShift

@@ -30,6 +30,12 @@ router.post('/',
         check("birthdate", "La fecha de nacimiento es obligatoria").not().isEmpty(),
         check("gender", "El genero es obligatorio").not().isEmpty(),
         check("address", "La dirección es obligatoria").not().isEmpty(),
+        check("phone", "El teléfono es obligatorio")
+            .not().isEmpty()
+            .isLength({ min: 10, max: 20 }).withMessage("El teléfono debe tener entre 10 y 20 caracteres")
+            .matches(/^[0-9\s\-\+]*$/).withMessage("El teléfono solo puede contener números, guiones o espacios"),
+        check("email", "El email es obligatorio").not().isEmpty(), 
+        check("email", "El email no es válido").isEmail(), 
         check("speciality", "La especialidad es obligatoria").not().isEmpty(),
         collectionErrors
     ],
@@ -48,7 +54,14 @@ router.patch('/:id',
         check("birthdate", "La fecha de nacimiento es obligatoria").not().isEmpty(),
         check("gender", "El genero es obligatorio").not().isEmpty(),
         check("address", "La dirección es obligatoria").not().isEmpty(),
+        check("phone", "El teléfono es obligatorio")
+            .not().isEmpty()
+            .isLength({ min: 10, max: 20 }).withMessage("El teléfono debe tener entre 10 y 20 caracteres")
+            .matches(/^[0-9\s\-\+]*$/).withMessage("El teléfono solo puede contener números, guiones o espacios"),
+        check("email", "El email es obligatorio").not().isEmpty(), 
+        check("email", "El email no es válido").isEmail(), 
         check("speciality", "La especialidad es obligatoria").not().isEmpty(),
+        check("state", "El estado es obligatorio").not().isEmpty(),
         collectionErrors
     ],
     updateProfessional

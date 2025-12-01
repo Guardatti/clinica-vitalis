@@ -8,6 +8,8 @@ import authRoutes from "../routes/auth"
 import patientsRoutes from "../routes/patients"
 import professionalsRoutes from "../routes/professionals"
 import shiftsRoutes from "../routes/shifts"
+import socialsWorksRoutes from "../routes/socialsWorks"
+import { SocialsWorks } from "./socialsWorks";
 
 
 
@@ -19,6 +21,7 @@ export class Server {
     patientsPath: string;
     professionalsPath: string;
     shiftsPath: string;
+    socialsWorksPath: string;
 
     constructor() {
         this.app = express();
@@ -27,6 +30,7 @@ export class Server {
         this.patientsPath = '/patients';
         this.professionalsPath = '/professionals';
         this.shiftsPath = '/shifts';
+        this.socialsWorksPath = '/socials_works';
         this.establishAssociations();
         this.connectionToDB();
         this.middlewares();
@@ -38,15 +42,20 @@ export class Server {
         Professionals.belongsToMany(Patients, { through: Shifts, foreignKey: 'professionalID' });
         Patients.belongsToMany(Professionals, { through: Shifts, foreignKey: 'patientID' });
     
-        // Turno (1 -> 1) Profesional
-        Shifts.belongsTo(Professionals, { foreignKey: 'professionalID' });
+        // "Obra social (1 -> 1..*) Pacientes
+        SocialsWorks.hasMany(Patients, { foreignKey: 'socialWorkId' });
+        // Paciente (1 -> 1) Obra social
+        Patients.belongsTo(SocialsWorks, { foreignKey: 'socialWorkId' });
+
         // Profesional (1 -> 1..*) Turnos
         Professionals.hasMany(Shifts, { foreignKey: 'professionalID' });
-    
-        // Turno (1 -> 1) Paciente
-        Shifts.belongsTo(Patients, { foreignKey: 'patientID' });
+        // Turno (1 -> 1) Profesional
+        Shifts.belongsTo(Professionals, { foreignKey: 'professionalID' });
+
         // Paciente (1 -> 1..*) Turno
         Patients.hasMany(Shifts, { foreignKey: 'patientID' });
+        // Turno (1 -> 1) Paciente
+        Shifts.belongsTo(Patients, { foreignKey: 'patientID' });
     }
 
     async connectionToDB(): Promise<void> {
@@ -63,6 +72,7 @@ export class Server {
         this.app.use(this.patientsPath, patientsRoutes)
         this.app.use(this.professionalsPath, professionalsRoutes)
         this.app.use(this.shiftsPath, shiftsRoutes)
+        this.app.use(this.socialsWorksPath, socialsWorksRoutes)
     }
 
     listen(): void {

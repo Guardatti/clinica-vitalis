@@ -39,7 +39,17 @@
     align-items: center;
     gap: 1rem;
     color: var(--color-text);
+    padding: 0.5rem;
+}
 
+.aside-link-active {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--color-text);
+    background: var(--bg-navlink);
+    padding: 0.5rem;
+    border-radius: 10px;
 }
 
 .aside-button {
@@ -48,4 +58,5 @@
     border: none;
     color: var(--color-mode);
     font-size: 16px;
+    padding: 0.5rem;
 }

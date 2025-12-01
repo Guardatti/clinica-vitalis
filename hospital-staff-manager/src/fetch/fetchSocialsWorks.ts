@@ -4,12 +4,10 @@ import type { IUser } from "../utils/interfaceFormRegister_Login/interface";
 
 interface IData {
     search?: string;
-    gender?: string;
-    socialWork?: string;
-
+    state?: string;
 }
 
-export const getPatients = async (currentUser: IUser | null, data: IData = {}) => {
+export const getSocialsWorks = async (currentUser: IUser | null, data: IData = {}) => {
 
     const params: Record<string, string> = {};
     
@@ -17,19 +15,15 @@ export const getPatients = async (currentUser: IUser | null, data: IData = {}) =
         params.search = data.search;
     }
 
-    if (data.gender) {
-        params.gender = data.gender;
-    }
-
-    if (data.socialWork) {
-        params.socialWork = data.socialWork;
+    if (data.state) {
+        params.state = data.state;
     }
 
     const queryString = new URLSearchParams(params).toString();
 
     try {
 
-        const data = await fetch(`http://localhost:8080/patients?${queryString}`, {
+        const data = await fetch(`http://localhost:8080/socials_works?${queryString}`, {
             method: "GET",
             headers: {
             "Content-Type": "application/json",
@@ -38,12 +32,12 @@ export const getPatients = async (currentUser: IUser | null, data: IData = {}) =
         })
 
         if (!data) {
-            throw new Error('No hay pacientes cargados en el sistema');
+            throw new Error('No hay obras sociales cargados en el sistema');
         }
 
         const response = await data.json()
-
-        return response.patients
+        
+        return response.socialsWorks
         
     } catch (error) {
         console.log(error);       

@@ -6,6 +6,7 @@ import Patients from '../pages/Patients/Patients'
 import Login from '../pages/Login/Login'
 import Register from '../pages/Register/Register'
 import ProtectedRoute from '../components/protectedRoute/protectedRoute'
+import SocialsWorks from '../pages/SocialsWorks/SocialsWorks'
 
 
 
@@ -18,18 +19,14 @@ const Routes: React.FC = () => {
 
                 <ReactRoutes>
                     
-                    <Route path='/' element={
+                    <Route path="/" element={<Navigate to="/inicio" replace />} />
+
+                    <Route path='/inicio' element={
                         <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
                             <Home/>
                         </ProtectedRoute>
                     }
                     />
-
-                    <Route path='/pacientes' element={
-                        <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
-                            <Patients/>
-                        </ProtectedRoute>
-                    } />
 
                     <Route path='/profesionales' element={
                         <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
@@ -37,9 +34,21 @@ const Routes: React.FC = () => {
                         </ProtectedRoute>
                     } />
 
+                    <Route path='/pacientes' element={
+                        <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
+                            <Patients/>
+                        </ProtectedRoute>
+                    } />
+
                     <Route path='/turnos' element={
                         <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
                             <Home/>
+                        </ProtectedRoute>
+                    } />
+
+                    <Route path='/obras_sociales' element={
+                        <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
+                            <SocialsWorks/>
                         </ProtectedRoute>
                     } />
 
