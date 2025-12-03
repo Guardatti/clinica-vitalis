@@ -32,7 +32,7 @@ export const getSocialsWorks = async (currentUser: IUser | null, data: IData = {
         })
 
         if (!data) {
-            throw new Error('No hay obras sociales cargados en el sistema');
+            throw new Error('No hay obras sociales cargadas en el sistema');
         }
 
         const response = await data.json()

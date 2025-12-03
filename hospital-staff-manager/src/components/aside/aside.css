@@ -1,14 +1,17 @@
 .aside {
-    width: 0px;
-    overflow: hidden;
-    height: 100dvh;
-    overflow-y: auto;
+    min-width: 200px;
+    min-height: 100%;
     background-color: var(--bg-aside);
     transition: width 0.3s ease;
+    transform: translateX(-200px);
+    transition: transform 0.3s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .aside-open {
-    width: 200px;
+    transform: translateX(0px);
 }
 
 .aside div {
@@ -59,4 +62,12 @@
     color: var(--color-mode);
     font-size: 16px;
     padding: 0.5rem;
+}
+
+@media screen and (min-width: 769px) {
+
+    .aside {
+        position: relative;
+    }
+
 }

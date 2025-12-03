@@ -10,6 +10,16 @@
     --color-text-button-login-register: #FFFFFF;
     --color-spinner: #FFFFFF;
     --bg-navlink: linear-gradient(90deg, #e3a3ff, #c372ff);
+    --bg-table: #FFFFFF;
+    --thead-: #5E42B0;
+    --table-border-bottom: #5E42B0;
+    --table-even: #f3f3f3;
+    --table-spinner-border: #FFFFFF;
+    --table-spinner-border-top: #5E42B0;
+    --table-separator-border-bottom: #DDDDDD;
+    --table-content: #000000;
+    --bg-input: #FFFFFF;
+    --bg-select: #FFFFFF;
 }
 
 /*Dark*/
@@ -24,6 +34,16 @@ body.dark {
     --color-text-button-login-register: #000000;
     --color-spinner: #1A1F2E;
     --bg-navlink: linear-gradient(90deg, #2f41e0, rgb(23, 34, 131));
+    --bg-table: #1A1F2E;
+    --thead-: #3E3465;
+    --table-border-bottom: #5E42B0;
+    --table-even: #21283B;
+    --table-spinner-border: #1A1F2E;
+    --table-spinner-border-top: #3E3465;
+    --table-separator-border-bottom: #2F3642;
+    --table-content: #FFFFFF;
+    --bg-input: #1A1F2E;
+    --bg-select: #1A1F2E;
 }
 
 body {

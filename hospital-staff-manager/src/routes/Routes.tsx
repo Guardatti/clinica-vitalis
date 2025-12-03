@@ -7,6 +7,8 @@ import Login from '../pages/Login/Login'
 import Register from '../pages/Register/Register'
 import ProtectedRoute from '../components/protectedRoute/protectedRoute'
 import SocialsWorks from '../pages/SocialsWorks/SocialsWorks'
+import Professionals from '../pages/Professionals/Professionals'
+import Specialities from '../pages/Specialities/Specialities'
 
 
 
@@ -30,7 +32,7 @@ const Routes: React.FC = () => {
 
                     <Route path='/profesionales' element={
                         <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
-                            <Home/>
+                            <Professionals/>
                         </ProtectedRoute>
                     } />
 
@@ -49,6 +51,12 @@ const Routes: React.FC = () => {
                     <Route path='/obras_sociales' element={
                         <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
                             <SocialsWorks/>
+                        </ProtectedRoute>
+                    } />
+
+                    <Route path='/especialidades' element={
+                        <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
+                            <Specialities/>
                         </ProtectedRoute>
                     } />
 

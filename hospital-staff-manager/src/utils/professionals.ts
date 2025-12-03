@@ -1,4 +1,4 @@
-export interface IPatient {
+export interface IProfessional {
     id: number;
     name: string;
     surname: string;
@@ -6,9 +6,11 @@ export interface IPatient {
     birthdate: Date;
     gender: string;
     address: string;
-    socialWorkId: string;
+    phone: string;
+    email: string;
+    specialityID: string;
     state: string;
-    Obras_Sociale?: {
+    Especialidade?: {
         name: string
     }
 }

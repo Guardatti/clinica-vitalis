@@ -1,7 +1,11 @@
 .container-layout {
     display: flex;
+    position: relative;
+    min-height: 100dvh;
 }
 
 .container-layout-1 {
     flex: 1;
+    display: flex;
+    flex-direction: column;
 }

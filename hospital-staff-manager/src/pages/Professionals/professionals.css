@@ -1,17 +1,17 @@
-.container-socials-works {
+.container-professionals {
     margin: 0 auto;
     padding: 2rem 1rem 2rem 1rem;
     display: flex;
     flex-direction: column;
 }
 
-.container-socials-works-title h3 {
+.container-professionals-title h3 {
     text-align: center;
     font-size: 1.5rem;
     color: var(--color-text);
 }
 
-.container-socials-works-btn-and-form {
+.container-professionals-btn-and-form {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -19,7 +19,7 @@
     padding: 2rem 0 2rem 0;
 }
 
-.container-btn-new-social-work button {
+.container-btn-new-professional button {
     background-color: #28A745;
     border: none;
     padding: 0.8rem;
@@ -30,7 +30,7 @@
 }
 
 
-.form-socials-works {
+.form-professionals {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -38,13 +38,13 @@
 }
 
 
-.container-input-social-work, 
-.container-select-social-work, 
-.container-btn-search-social-work {
+.container-input-professional, 
+.container-select-professional, 
+.container-btn-search-professional {
     width: 100%;
 }
 
-.container-input-social-work input {
+.container-input-professional input {
     width: 100%;
     padding: 0.8rem;
     border: 1px solid #ccc;
@@ -55,7 +55,7 @@
 }
 
 
-.container-select-social-work select {
+.container-select-professional select {
     width: 100%;
     padding: 0.8rem;
     font-size: 0.9rem;
@@ -65,7 +65,7 @@
     border-radius: 5px;
 }
 
-.container-btn-search-social-work button {
+.container-btn-search-professional button {
     width: 100%;
     padding: 0.8rem;
     font-size: 1.3rem;
@@ -79,7 +79,7 @@
     align-items: center;
 }
 
-.table-container-social-work {
+.table-container-professional {
     margin: 0 auto;
     -webkit-overflow-scrolling: touch;
     border-radius: 5px;
@@ -87,7 +87,7 @@
     width: 100%;
 }
 
-.table-social-work {
+.table-professional {
     width: 100%;
     overflow-x: auto;
     border-collapse: collapse;
@@ -95,30 +95,30 @@
     font-size: 0.9rem;
 }
 
-.table-social-work thead {
+.table-professional thead {
     background-color: var(--thead-)
 }
 
-.table-social-work thead tr th {
+.table-professional thead tr th {
     font-weight: bold;
     color: #FFFFFF;
 }
 
-.table-social-work th, .table-social-work td {
+.table-professional th, .table-professional td {
     padding: 1.5rem;
     text-align: center;
     color: var(--table-content);
 }
 
-.table-social-work tbody tr {
+.table-professional tbody tr {
     border-bottom: 1px solid var(--table-separator-border-bottom);
 }
 
-.table-social-work tbody tr:nth-of-type(even) {
+.table-professional tbody tr:nth-of-type(even) {
     background-color: var(--table-even);
 }
 
-.table-social-work tbody tr:last-of-type {
+.table-professional tbody tr:last-of-type {
     border-bottom: 3px solid var(--table-border-bottom);
 }
 
@@ -130,14 +130,14 @@
     color: rgb(255, 0, 0);
 }
 
-.container-icons-social-work {
+.container-icons-professional {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1rem;
 }
 
-.spinner-social-work{
+.spinner-professional {
     border: 4px solid var(--table-spinner-border);
     border-top: 4px solid var(--table-spinner-border-top);
     border-radius: 50%;
@@ -158,32 +158,32 @@
 
 @media screen and (min-width: 769px) {
 
-    .container-socials-works-btn-and-form {
+    .container-professionals-btn-and-form {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
         flex-wrap: wrap;
     }
 
-    .form-socials-works {
+    .form-professionals {
         flex-direction: row;
         align-items: center;
         width: auto;
     }
 
-    .container-input-social-work {
+    .container-input-professional {
         width: auto;
     }
 
-    .container-select-social-work {
+    .container-select-professional {
         width: auto;
     }
 
-    .container-btn-search-social-work {
+    .container-btn-search-professional {
         width: auto;
     }
 
-    .container-btn-search-social-work button {
+    .container-btn-search-professional button {
         width: auto;
     }
 

@@ -5,7 +5,8 @@ import type { IUser } from "../utils/interfaceFormRegister_Login/interface";
 interface IData {
     search?: string;
     gender?: string;
-    socialWork?: string;
+    specialityID?: string;
+    state?: string;
 
 }
 
@@ -21,15 +22,19 @@ export const getProfessionals = async (currentUser: IUser | null, data: IData = 
         params.gender = data.gender;
     }
 
-    if (data.socialWork) {
-        params.socialWork = data.socialWork;
+    if (data.specialityID) {
+        params.specialityID = data.specialityID;
+    }
+
+    if (data.state) {
+        params.state = data.state;
     }
 
     const queryString = new URLSearchParams(params).toString();
 
     try {
 
-        const response = await fetch(`http://localhost:8080/professionals?${queryString}`, {
+        const data = await fetch(`http://localhost:8080/professionals?${queryString}`, {
             method: "GET",
             headers: {
             "Content-Type": "application/json",
@@ -37,11 +42,13 @@ export const getProfessionals = async (currentUser: IUser | null, data: IData = 
             }
         })
 
-        if (!response) {
+        if (!data) {
             throw new Error('No hay profesionales cargados en el sistema');
         }
 
-        return await response.json()
+        const response = await data.json()
+
+        return response.professionals
         
     } catch (error) {
         console.log(error);       

@@ -1,32 +1,31 @@
 import React, { useEffect, useRef, useState } from 'react'
-import './patients.css'
+import './professionals.css'
 import { CiSearch } from "react-icons/ci";
 import { useAppSelector } from '../../redux/hooks';
 import { useForm } from 'react-hook-form';
 import { MdVisibility, MdEdit } from "react-icons/md";
-import type { IPatient } from '../../utils/patients';
-import { getPatients } from '../../fetch/fetchPatients';
-import { getSocialsWorks } from '../../fetch/fetchSocialsWorks';
-import type { ISocialWork } from '../../utils/socialsWorks';
+import type { IProfessional } from '../../utils/professionals';
+import { getProfessionals } from '../../fetch/fetchProfessionals';
+import type { ISpeciality } from '../../utils/speciality';
+import { getSpecialities } from '../../fetch/fetchSpecialities';
 
 
 
 interface FormData {
     search: string;
     gender: string;
-    socialWorkId: string;
+    specialityID: string;
     state: string;
 }
 
-const Patients: React.FC = () => {
+const Professionals: React.FC = () => {
 
     const currentUser = useAppSelector(state => state.user.currentUser)
 
     const [loading, setLoading] = useState<boolean>(false);
 
-    const [patients, setPatients] = useState<IPatient[]>([])
-
-    const [socialsWorks, setSocialsWorks] = useState<ISocialWork[]>([])
+    const [professionals, setProfessionals] = useState<IProfessional[]>([])
+    const [specialities, setSpecialities] = useState<ISpeciality[]>([])
 
     const { register, handleSubmit } = useForm<FormData>()
 
@@ -40,9 +39,9 @@ const Patients: React.FC = () => {
 
             await new Promise(resolve => setTimeout(resolve, 1500)); 
 
-            const response: IPatient[] = await getPatients(currentUser, data);
+            const response: IProfessional[] = await getProfessionals(currentUser, data);
 
-            setPatients(response)
+            setProfessionals(response)
 
         } catch (error) {
             console.log(error)
@@ -54,7 +53,7 @@ const Patients: React.FC = () => {
 
     useEffect(( ) => {
 
-        const findPatients = async (): Promise<void> => {
+        const findProfessionals = async (): Promise<void> => {
 
             try {
 
@@ -62,13 +61,14 @@ const Patients: React.FC = () => {
 
                 await new Promise(resolve => setTimeout(resolve, 1500)); 
                 
-                const [patientsData, socialsWorksData] = await Promise.all([
-                        getPatients(currentUser),
-                        getSocialsWorks(currentUser)
+                const [professionalsData, specialtiesData] = await Promise.all([
+                        getProfessionals(currentUser),
+                        getSpecialities(currentUser)
                 ]);
 
-                setPatients(patientsData)
-                setSocialsWorks(socialsWorksData)
+                setProfessionals(professionalsData)
+
+                setSpecialities(specialtiesData)
 
             } catch (error) {
                 console.log(error);
@@ -78,24 +78,24 @@ const Patients: React.FC = () => {
 
         }
 
-        findPatients();
+        findProfessionals();
 
     }, [currentUser])
 
     return (
-        <section className='container-patients'>
-            <div className='container-patients-title'>
-                <h3>Pacientes</h3>
+        <section className='container-professionals'>
+            <div className='container-professionals-title'>
+                <h3>Profesionales</h3>
             </div>
-            <div className='container-patients-btn-and-form'>
-                <div className='container-btn-new-patient'>
-                    <button>+ Crear paciente</button>
+            <div className='container-professionals-btn-and-form'>
+                <div className='container-btn-new-professional'>
+                    <button>+ Crear profesional</button>
                 </div>
-                <form ref={form} onSubmit={handleSubmit(onSubmit)} className='form-patients'>
-                    <div className='container-input-patient'>
+                <form ref={form} onSubmit={handleSubmit(onSubmit)} className='form-professionals'>
+                    <div className='container-input-professional'>
                         <input {...register('search')} type="text" placeholder='Nombre, apellido o DNI...'/>
                     </div>
-                    <div className='container-select-patient'>
+                    <div className='container-select-professional'>
                         <select {...register('gender')}>
                             <option value="">Género</option>
                             <option value="Femenino">Femenino</option>
@@ -103,12 +103,12 @@ const Patients: React.FC = () => {
                         </select>
                     </div>
                     {
-                        socialsWorks.length > 0 &&
-                        <div className='container-select-patient'>
-                            <select {...register('socialWorkId')}>
-                                <option value="">Obras sociales</option>
+                        specialities.length > 0 &&
+                        <div className='container-select-professional'>
+                            <select {...register('specialityID')}>
+                                <option value="">Especialidad</option>
                                 {
-                                    socialsWorks.map((x) => {
+                                    specialities.map((x) => {
                                         return(
                                             <option value={x.id} key={x.id}>{x.name}</option>
                                         )
@@ -117,25 +117,25 @@ const Patients: React.FC = () => {
                             </select>
                         </div>
                     }
-                    <div className='container-select-patient'>
+                    <div className='container-select-professional'>
                         <select {...register('state')}>
                             <option value="">Estado</option>
                             <option value="Activo/a">Activo</option>
                             <option value="Inactivo/a">Inactivo</option>
                         </select>
                     </div>
-                    <div className='container-btn-search-patient'>
+                    <div className='container-btn-search-professional'>
                         <button><CiSearch /></button>
                     </div>
                 </form>
             </div>
-            <div className='table-container-patient'>
-                <table className='table-patient'>
+            <div className='table-container-professional'>
+                <table className='table-professional'>
                     <thead>
                         <tr>
                             <th>Nombre</th>
                             <th>Apellido</th>
-                            <th>DNI</th>
+                            <th>Especialidad</th>
                             <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
@@ -145,23 +145,23 @@ const Patients: React.FC = () => {
                             loading ?
                             <tr>
                                 <td colSpan={5}>
-                                    <div className='spinner-patient'/>
+                                    <div className='spinner-professional'/>
                                 </td>
                             </tr>
                             :
-                            patients?.length > 0 ?
-                            patients.map((x) => {
+                            professionals?.length > 0 ?
+                            professionals.map((x) => {
                                 return(
                                     <tr key={x.id}>
                                         <td>{x.name}</td>
                                         <td>{x.surname}</td>
-                                        <td>{x.dni}</td>
+                                        <td>{x.Especialidade?.name}</td>
                                         <td >
                                             <span className={`status ${x.state === 'Activo/a' ? 'status-active' : 'status-inactive'}`}>
                                                 {x.state}
                                             </span>
                                         </td>
-                                        <td className='container-icons-patient'>
+                                        <td className='container-icons-professional'>
                                             <MdVisibility style={{color: '007bff', cursor: 'pointer', fontSize: '1rem'}}/>
                                             <MdEdit style={{color: 'fd7e14', cursor: 'pointer', fontSize: '1rem'}}/>
                                         </td>
@@ -180,4 +180,4 @@ const Patients: React.FC = () => {
     )
 }
 
-export default Patients
+export default Professionals

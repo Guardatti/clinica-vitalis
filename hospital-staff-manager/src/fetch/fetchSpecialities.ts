@@ -4,26 +4,15 @@ import type { IUser } from "../utils/interfaceFormRegister_Login/interface";
 
 interface IData {
     search?: string;
-    gender?: string;
-    socialWorkId?: string;
     state?: string;
-
 }
 
-export const getPatients = async (currentUser: IUser | null, data: IData = {}) => {
+export const getSpecialities = async (currentUser: IUser | null, data: IData = {}) => {
 
     const params: Record<string, string> = {};
     
     if (data.search) {
         params.search = data.search;
-    }
-
-    if (data.gender) {
-        params.gender = data.gender;
-    }
-
-    if (data.socialWorkId) {
-        params.socialWorkId = data.socialWorkId;
     }
 
     if (data.state) {
@@ -34,7 +23,7 @@ export const getPatients = async (currentUser: IUser | null, data: IData = {}) =
 
     try {
 
-        const data = await fetch(`http://localhost:8080/patients?${queryString}`, {
+        const data = await fetch(`http://localhost:8080/specialities?${queryString}`, {
             method: "GET",
             headers: {
             "Content-Type": "application/json",
@@ -43,15 +32,15 @@ export const getPatients = async (currentUser: IUser | null, data: IData = {}) =
         })
 
         if (!data) {
-            throw new Error('No hay pacientes cargados en el sistema');
+            throw new Error('No hay especialidades cargadas en el sistema');
         }
 
         const response = await data.json()
         
-        return response.patients
+        return response.specialities
         
     } catch (error) {
         console.log(error);       
     }
 
-}
+} 

@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
-import './socialsWorks.css'
+import './specialities.css'
 import { CiSearch } from "react-icons/ci";
 import { useAppSelector } from '../../redux/hooks';
 import { useForm } from 'react-hook-form';
-import type { ISocialWork } from '../../utils/socialsWorks';
-import { getSocialsWorks } from '../../fetch/fetchSocialsWorks';
-import { MdVisibility, MdEdit } from "react-icons/md";
+import { MdEdit } from "react-icons/md";
+import type { ISpeciality } from '../../utils/speciality';
+import { getSpecialities } from '../../fetch/fetchSpecialities';
 
 
 
@@ -14,13 +14,13 @@ interface FormData {
     state: string;
 }
 
-const SocialsWorks: React.FC = () => {
+const Specialities: React.FC = () => {
 
     const currentUser = useAppSelector(state => state.user.currentUser)
 
     const [loading, setLoading] = useState<boolean>(false);
 
-    const [socialsWorks, setSocialsWorks] = useState<ISocialWork[]>([])
+    const [specialities, setSpecialities] = useState<ISpeciality[]>([])
 
     const { register, handleSubmit } = useForm<FormData>()
 
@@ -34,9 +34,9 @@ const SocialsWorks: React.FC = () => {
 
             await new Promise(resolve => setTimeout(resolve, 1500)); 
 
-            const response: ISocialWork[] = await getSocialsWorks(currentUser, data);
+            const response: ISpeciality[] = await getSpecialities(currentUser, data);
 
-            setSocialsWorks(response);
+            setSpecialities(response);
 
         } catch (error) {
             console.log(error)
@@ -56,9 +56,9 @@ const SocialsWorks: React.FC = () => {
 
                 await new Promise(resolve => setTimeout(resolve, 1500)); 
                 
-                const response: ISocialWork[] = await getSocialsWorks(currentUser);
+                const response: ISpeciality[] = await getSpecialities(currentUser);
 
-                setSocialsWorks(response)
+                setSpecialities(response)
 
             } catch (error) {
                 console.log(error);
@@ -73,32 +73,32 @@ const SocialsWorks: React.FC = () => {
     }, [currentUser])
 
     return (
-        <section className='container-socials-works'>
-            <div className='container-socials-works-title'>
-                <h3>Obras sociales</h3>
+        <section className='container-specialities'>
+            <div className='container-specialities-title'>
+                <h3>Especialidades</h3>
             </div>
-            <div className='container-socials-works-btn-and-form'>
-                <div className='container-btn-new-social-work'>
-                    <button>+ Crear obra social</button>
+            <div className='container-specialities-btn-and-form'>
+                <div className='container-btn-new-speciality'>
+                    <button>+ Crear especialidad</button>
                 </div>
-                <form ref={form} onSubmit={handleSubmit(onSubmit)} className='form-socials-works'>
-                    <div className='container-input-social-work'>
-                        <input {...register('search')} type="text" placeholder='Nombre de la obra social...'/>
+                <form ref={form} onSubmit={handleSubmit(onSubmit)} className='form-specialities'>
+                    <div className='container-input-speciality'>
+                        <input {...register('search')} type="text" placeholder='Nombre de la especialidad...'/>
                     </div>
-                    <div className='container-select-social-work'>
+                    <div className='container-select-speciality'>
                         <select {...register('state')}>
                             <option value="">Estado</option>
                             <option value="Activa">Activa</option>
                             <option value="Inactiva">Inactiva</option>
                         </select>
                     </div>
-                    <div className='container-btn-search-social-work'>
+                    <div className='container-btn-search-speciality'>
                         <button><CiSearch /></button>
                     </div>
                 </form>
             </div>
-            <div className='table-container-social-work'>
-                <table className='table-social-work'>
+            <div className='table-container-speciality'>
+                <table className='table-speciality'>
                     <thead>
                         <tr>
                             <th>Nombre</th>
@@ -111,12 +111,12 @@ const SocialsWorks: React.FC = () => {
                             loading ?
                             <tr>
                                 <td colSpan={3}>
-                                    <div className='spinner-social-work'/>
+                                    <div className='spinner-speciality'/>
                                 </td>
                             </tr>
                             :
-                            socialsWorks?.length > 0 ?
-                            socialsWorks.map((x) => {
+                            specialities?.length > 0 ?
+                            specialities.map((x) => {
                                 return(
                                     <tr key={x.id}>
                                         <td>{x.name}</td>
@@ -125,8 +125,7 @@ const SocialsWorks: React.FC = () => {
                                                 {x.state}
                                             </span>
                                         </td>
-                                        <td className='container-icons-social-work'>
-                                            <MdVisibility style={{color: '007bff', cursor: 'pointer', fontSize: '1rem'}}/>
+                                        <td className='container-icons-speciality'>
                                             <MdEdit style={{color: 'fd7e14', cursor: 'pointer', fontSize: '1rem'}}/>
                                         </td>
                                     </tr>
@@ -134,7 +133,7 @@ const SocialsWorks: React.FC = () => {
                             })
                             :
                             <tr>
-                                <td colSpan={3} style={{textAlign: 'center'}}>No hay obras sociales cargadas</td>
+                                <td colSpan={3} style={{textAlign: 'center'}}>No hay especialidades cargadas</td>
                             </tr>
                         }
                     </tbody>
@@ -144,4 +143,4 @@ const SocialsWorks: React.FC = () => {
     )
 }
 
-export default SocialsWorks
+export default Specialities
