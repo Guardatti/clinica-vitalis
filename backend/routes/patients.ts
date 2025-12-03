@@ -2,7 +2,7 @@ import { Router } from "express";
 import { validatorJWT } from "../middlewares/validatorJWT";
 import { collectionErrors } from "../middlewares/collectionErrors";
 import { check } from "express-validator";
-import { existDNIPatient, existDNIPatientById } from "../helpers/validationsDB";
+import { existDNIPatient, existDNIPatientById, existSocialWorkById } from "../helpers/validationsDB";
 import { createPatient, getPatients, updatePatient } from "../controllers/patients";
 import { isAdmin } from "../middlewares/validatorAdmin";
 
@@ -37,6 +37,7 @@ router.post('/',
         check("email", "El email es obligatorio").not().isEmpty(), 
         check("email", "El email no es válido").isEmail(), 
         check("socialWorkId", "La obra social es obligatoria").not().isEmpty(),
+        check("socialWorkId").custom(existSocialWorkById),
         collectionErrors
     ],
     createPatient
@@ -61,6 +62,7 @@ router.patch('/:id',
         check("email", "El email es obligatorio").not().isEmpty(), 
         check("email", "El email no es válido").isEmail(), 
         check("socialWorkId", "La obra social es obligatoria").not().isEmpty(),
+        check("socialWorkId").custom(existSocialWorkById),
         check("state", "El estado es obligatorio").not().isEmpty(),
         collectionErrors
     ],

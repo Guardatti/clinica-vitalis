@@ -2,7 +2,7 @@ import { Router } from "express";
 import { validatorJWT } from "../middlewares/validatorJWT";
 import { collectionErrors } from "../middlewares/collectionErrors";
 import { check } from "express-validator";
-import { existDNIProfessional, existDNIProfessionalById } from "../helpers/validationsDB";
+import { existDNIProfessional, existDNIProfessionalById, existSpecialityById } from "../helpers/validationsDB";
 import { createProfessional, getProfessionals, updateProfessional } from "../controllers/professionals";
 import { isAdmin } from "../middlewares/validatorAdmin";
 
@@ -36,7 +36,8 @@ router.post('/',
             .matches(/^[0-9\s\-\+]*$/).withMessage("El teléfono solo puede contener números, guiones o espacios"),
         check("email", "El email es obligatorio").not().isEmpty(), 
         check("email", "El email no es válido").isEmail(), 
-        check("speciality", "La especialidad es obligatoria").not().isEmpty(),
+        check("specialityID", "La especialidad es obligatoria").not().isEmpty(),
+        check("specialityID").custom(existSpecialityById),
         collectionErrors
     ],
     createProfessional
@@ -60,7 +61,8 @@ router.patch('/:id',
             .matches(/^[0-9\s\-\+]*$/).withMessage("El teléfono solo puede contener números, guiones o espacios"),
         check("email", "El email es obligatorio").not().isEmpty(), 
         check("email", "El email no es válido").isEmail(), 
-        check("speciality", "La especialidad es obligatoria").not().isEmpty(),
+        check("specialityID", "La especialidad es obligatoria").not().isEmpty(),
+        check("specialityID").custom(existSpecialityById),
         check("state", "El estado es obligatorio").not().isEmpty(),
         collectionErrors
     ],

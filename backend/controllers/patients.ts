@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Patients } from "../models/patients";
 import { Op } from "sequelize";
+import { SocialsWorks } from "../models/socialsWorks";
 
 
 
@@ -29,7 +30,7 @@ export const getPatients = async (req: Request, res: Response) => {
 
     try {
         
-        const {search, gender, socialWork} = req.query
+        const {search, gender, state, socialWorkId} = req.query
 
         const filter: any = {}
 
@@ -51,12 +52,22 @@ export const getPatients = async (req: Request, res: Response) => {
             filter.gender = gender
         }
 
-        if (socialWork) {
-            filter.socialWork = socialWork
+        if (state) {
+            filter.state = state
+        }
+
+        if (socialWorkId) {
+            filter.socialWorkId = socialWorkId
         }
 
         const patients = await Patients.findAll({
-            where: filter
+            where: filter,
+            include: [
+                {
+                    model: SocialsWorks,
+                    attributes: ['name']
+                }
+            ]
         })
 
         if (!patients) {

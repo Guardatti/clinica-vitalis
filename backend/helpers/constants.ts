@@ -25,3 +25,8 @@ export const STATES_PATIENTS = {
     active: "Activo/a",
     inactive: "Inactivo/a",
 }
+
+export const STATES_SPECIALITIES = {
+    active: "Activa",
+    inactive: "Inactiva",
+}

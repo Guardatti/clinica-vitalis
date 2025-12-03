@@ -9,7 +9,9 @@ import patientsRoutes from "../routes/patients"
 import professionalsRoutes from "../routes/professionals"
 import shiftsRoutes from "../routes/shifts"
 import socialsWorksRoutes from "../routes/socialsWorks"
+import specialitiesRoutes from "../routes/speciality"
 import { SocialsWorks } from "./socialsWorks";
+import { Speciality } from "./speciality";
 
 
 
@@ -22,6 +24,7 @@ export class Server {
     professionalsPath: string;
     shiftsPath: string;
     socialsWorksPath: string;
+    specialitiesPath: string;
 
     constructor() {
         this.app = express();
@@ -31,6 +34,7 @@ export class Server {
         this.professionalsPath = '/professionals';
         this.shiftsPath = '/shifts';
         this.socialsWorksPath = '/socials_works';
+        this.specialitiesPath = '/specialities';
         this.establishAssociations();
         this.connectionToDB();
         this.middlewares();
@@ -44,18 +48,23 @@ export class Server {
     
         // "Obra social (1 -> 1..*) Pacientes
         SocialsWorks.hasMany(Patients, { foreignKey: 'socialWorkId' });
-        // Paciente (1 -> 1) Obra social
+        // Un Paciente pertenece a una Obra Social
         Patients.belongsTo(SocialsWorks, { foreignKey: 'socialWorkId' });
 
         // Profesional (1 -> 1..*) Turnos
         Professionals.hasMany(Shifts, { foreignKey: 'professionalID' });
-        // Turno (1 -> 1) Profesional
+        // Un Turno pertenece a un Profesional
         Shifts.belongsTo(Professionals, { foreignKey: 'professionalID' });
 
         // Paciente (1 -> 1..*) Turno
         Patients.hasMany(Shifts, { foreignKey: 'patientID' });
-        // Turno (1 -> 1) Paciente
+        // Un Turno pertenece a un Paciente
         Shifts.belongsTo(Patients, { foreignKey: 'patientID' });
+
+        // Especialidad (1 -> 1..*) Profesionales
+        Speciality.hasMany(Professionals, { foreignKey: 'specialityID'  });
+        // Un Profesional pertenece a una Especialidad
+        Professionals.belongsTo(Speciality, { foreignKey: 'specialityID' });
     }
 
     async connectionToDB(): Promise<void> {
@@ -73,6 +82,7 @@ export class Server {
         this.app.use(this.professionalsPath, professionalsRoutes)
         this.app.use(this.shiftsPath, shiftsRoutes)
         this.app.use(this.socialsWorksPath, socialsWorksRoutes)
+        this.app.use(this.specialitiesPath, specialitiesRoutes)
     }
 
     listen(): void {

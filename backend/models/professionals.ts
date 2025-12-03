@@ -12,7 +12,7 @@ export interface IProfessionals {
     address: string;
     phone: string;
     email: string;
-    speciality: string;
+    specialityID: number;
     state?: string;
 }
 
@@ -62,9 +62,13 @@ export const Professionals = sequelize.define<ProfessionalInstance>('Profesional
             isEmail: true
         }
     },
-    speciality: {
+    specialityID: {
         type: DataTypes.STRING,
         allowNull: false,
+        references: {
+            model: 'Especialidades',
+            key: 'id'
+        }
     },
     state: {
         type: DataTypes.STRING,

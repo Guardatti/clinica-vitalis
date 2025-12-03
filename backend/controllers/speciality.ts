@@ -1,20 +1,19 @@
 import { Request, Response } from "express";
-import { Professionals } from "../models/professionals";
 import { Op } from "sequelize";
 import { Speciality } from "../models/speciality";
 
 
 
-export const createProfessional = async (req: Request, res: Response) => {
+export const createSpeciality = async (req: Request, res: Response) => {
 
     const data = req.body;
 
     try {
 
-        const professional = await Professionals.create(data)
+        const speciality = await Speciality.create(data)
 
         res.status(201).json({
-            professional
+            speciality
         })
 
     } catch (error) {
@@ -26,11 +25,11 @@ export const createProfessional = async (req: Request, res: Response) => {
 
 }
 
-export const getProfessionals = async (req: Request, res: Response) => {
+export const getSpecialities = async (req: Request, res: Response) => {
 
     try {
         
-        const {search, gender, specialityID, state} = req.query;
+        const {search, state} = req.query;
 
         const filter: any = {}
 
@@ -38,47 +37,27 @@ export const getProfessionals = async (req: Request, res: Response) => {
             filter[Op.or] = [
                 {
                     name: {[Op.like]: `%${search}`}
-                },
-                {
-                    surname: {[Op.like]: `%${search}`}
-                },
-                {
-                    dni: {[Op.like]: `%${search}`}
                 }
             ]
-        }
-        
-        if (gender) {
-            filter.gender = gender
-        }
-
-        if (specialityID) {
-            filter.specialityID = specialityID
         }
 
         if (state) {
             filter.state = state
         }
 
-        const professionals = await Professionals.findAll({
-            where: filter,
-            include: [
-                {
-                    model: Speciality,
-                    attributes: ['name']
-                }
-            ]
+        const specialities = await Speciality.findAll({
+            where: filter
         })
 
-        if (!professionals) {
+        if (!specialities) {
             res.status(404).json({
-                msg: "No hay profesionales cargados en el sistema"
+                msg: "No hay especialidades cargados en el sistema"
             })
             return
         }
 
         res.status(200).json({
-            professionals
+            specialities
         })
 
     } catch (error) {
@@ -90,7 +69,7 @@ export const getProfessionals = async (req: Request, res: Response) => {
 
 }
 
-export const updateProfessional = async (req: Request, res: Response) => {
+export const updateSpeciality = async (req: Request, res: Response) => {
 
     const data = req.body;
 
@@ -105,19 +84,19 @@ export const updateProfessional = async (req: Request, res: Response) => {
             return
         }
 
-        const professional = await Professionals.findByPk(id)
+        const speciality = await Speciality.findByPk(id)
 
-        if (!professional) {
+        if (!speciality) {
             res.status(404).json({
-                msg: "El profesional no está cargado en el sistema"
+                msg: "La especialidad no está cargado en el sistema"
             })
             return
         }
 
-        await professional.update(data)
+        await speciality.update(data)
 
         res.status(200).json({
-            professional
+            speciality
         })
 
     } catch (error) {
