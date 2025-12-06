@@ -1,8 +1,11 @@
+import { Op } from "sequelize"
 import { IPatients, Patients } from "../models/patients"
 import { IProfessionals, Professionals } from "../models/professionals"
 import { ISocialsWorks, SocialsWorks } from "../models/socialsWorks"
 import { ISpeciality, Speciality } from "../models/speciality"
 import { IUser, User } from "../models/user"
+import { Appointments } from "../models/appointments"
+import { CustomValidator } from "express-validator"
 
 
 
@@ -33,6 +36,18 @@ export const existDNIPatient = async (dni: number): Promise<void> => {
     if (isExisting) {
 
         throw new Error(`El DNI ${dni} ya está registrado`)
+
+    }
+
+}
+
+export const existProfessionalById = async (id: number) => {
+
+    const isExisting: IProfessionals | null = await Professionals.findByPk(id)
+
+    if (!isExisting) {
+
+        throw new Error(`El profesional con ID ${id} no existe`)
 
     }
 
@@ -190,3 +205,60 @@ export const existSpecialityById = async (id: number) => {
     }
 
 }
+
+export const checkAppointmentAvailability = async (date: Date, {req}: any) => {
+
+    const professionalID = req.body.professionalID;
+    const idToIgnore = req.params?.id;
+
+    if (!professionalID) {
+        return true
+    }
+
+    const whereCondition: any = {
+        professionalID: professionalID,
+        date: date
+    };
+
+    if (idToIgnore) {
+        whereCondition.id = { [Op.ne]: idToIgnore };
+    }
+
+    const appointmentExists = await Appointments.findOne({
+        where: whereCondition
+    });
+
+    if (appointmentExists) {
+        throw new Error(`El profesional ya tiene un turno ocupado en la fecha y hora ${date}`);
+    }
+
+}
+
+export const isValidTimeFormat: CustomValidator = (time: string) => {
+
+    if (!time) {
+        return true
+    }
+
+    const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$/;
+    
+    if (!timeRegex.test(time)) {
+        throw new Error('El formato de hora debe ser HH:mm (Ej: 09:30)');
+    }
+
+    return true;
+
+};
+
+export const checkTimeRange: CustomValidator = (endTime, { req }) => {
+
+    const startTime = req.body.startTime;
+    
+    if (!startTime || !endTime) return true; 
+
+    if (startTime >= endTime) {
+        throw new Error('La hora de finalización debe ser posterior a la hora de inicio');
+    }
+    
+    return true;
+};

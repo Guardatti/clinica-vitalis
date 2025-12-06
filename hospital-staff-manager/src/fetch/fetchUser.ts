@@ -1,4 +1,5 @@
 import type { ILoginData, IRegisterData } from "../utils/interfaceFormRegister_Login/interface";
+import { API_URL } from "../utils/util";
 
 
 
@@ -7,7 +8,7 @@ export const createUser = async (data: IRegisterData) => {
 
     try {
 
-        const response = await fetch("http://localhost:8080/auth/register", {
+        const response = await fetch(`${API_URL}/auth/register`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -38,7 +39,7 @@ export const loginUser = async (data: ILoginData) => {
 
     try {
         
-        const response = await fetch("http://localhost:8080/auth/login", {
+        const response = await fetch(`${API_URL}/auth/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

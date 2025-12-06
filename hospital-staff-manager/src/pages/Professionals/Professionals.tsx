@@ -37,7 +37,7 @@ const Professionals: React.FC = () => {
             
             setLoading(true)
 
-            await new Promise(resolve => setTimeout(resolve, 1500)); 
+            await new Promise(resolve => setTimeout(resolve, 1000)); 
 
             const response: IProfessional[] = await getProfessionals(currentUser, data);
 
@@ -59,7 +59,7 @@ const Professionals: React.FC = () => {
 
                 setLoading(true)
 
-                await new Promise(resolve => setTimeout(resolve, 1500)); 
+                await new Promise(resolve => setTimeout(resolve, 1000)); 
                 
                 const [professionalsData, specialtiesData] = await Promise.all([
                         getProfessionals(currentUser),
@@ -103,7 +103,7 @@ const Professionals: React.FC = () => {
                         </select>
                     </div>
                     {
-                        specialities.length > 0 &&
+                        specialities?.length > 0 &&
                         <div className='container-select-professional'>
                             <select {...register('specialityID')}>
                                 <option value="">Especialidad</option>

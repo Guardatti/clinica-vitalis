@@ -1,18 +1,18 @@
 import { Request, Response } from "express";
-import { Shifts } from "../models/shifts";
+import { Appointments } from "../models/appointments";
 
 
 
-export const createShift = async (req: Request, res: Response) => {
+export const createAppointment = async (req: Request, res: Response) => {
 
     const data = req.body;
 
     try {
         
-        const shift = await Shifts.create(data)
+        const appointment = await Appointments.create(data)
 
         res.status(201).json({
-            shift
+            appointment
         })
 
     } catch (error) {
@@ -24,7 +24,7 @@ export const createShift = async (req: Request, res: Response) => {
 
 }
 
-export const getShifts = async (req: Request, res: Response) => {
+export const getAppointements = async (req: Request, res: Response) => {
 
     try {
         
@@ -44,12 +44,12 @@ export const getShifts = async (req: Request, res: Response) => {
             filter.patientID = patientID
         }
 
-        const shifts = await Shifts.findAll({
+        const appointments = await Appointments.findAll({
             where: filter
         }
         )
 
-        if (!shifts) {
+        if (!appointments) {
             res.status(404).json({
                 msg: "No hay turnos cargados en el sistema"
             })
@@ -57,7 +57,7 @@ export const getShifts = async (req: Request, res: Response) => {
         }
 
         res.status(200).json({
-            shifts
+            appointments
         })
 
     } catch (error) {
@@ -69,7 +69,7 @@ export const getShifts = async (req: Request, res: Response) => {
 
 }
 
-export const updateShift = async (req: Request, res: Response) => {
+export const updateAppointment = async (req: Request, res: Response) => {
 
     const data = req.body;
 
@@ -84,19 +84,19 @@ export const updateShift = async (req: Request, res: Response) => {
             return
         }
 
-        const shift = await Shifts.findByPk(id)
+        const appointment = await Appointments.findByPk(id)
 
-        if (!shift) {
+        if (!appointment) {
             res.status(404).json({
                 msg: "El turno no está cargando en el sistema"
             })
             return
         }
 
-        await shift.update(data);
+        await appointment.update(data);
 
         res.status(200).json({
-            shift
+            appointment
         })
 
     } catch (error) {

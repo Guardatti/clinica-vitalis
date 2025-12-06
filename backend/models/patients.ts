@@ -72,7 +72,7 @@ export const Patients = sequelize.define<PatientInstance>('Pacientes', {
         }
     },
     state: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM(...Object.values(STATES_PATIENTS)),
         allowNull: false,
         defaultValue: STATES_PATIENTS.active
     }

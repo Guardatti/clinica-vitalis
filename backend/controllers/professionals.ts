@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { Professionals } from "../models/professionals";
 import { Op } from "sequelize";
 import { Speciality } from "../models/speciality";
+import { WorkSchedule } from "../models/workSchedule";
 
 
 
@@ -66,6 +67,10 @@ export const getProfessionals = async (req: Request, res: Response) => {
                 {
                     model: Speciality,
                     attributes: ['name']
+                },
+                {
+                    model: WorkSchedule,
+                    attributes: ['dayOfWeek', 'startTime', 'endTime']
                 }
             ]
         })

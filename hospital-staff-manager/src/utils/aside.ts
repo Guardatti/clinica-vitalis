@@ -2,6 +2,7 @@ import type { IconType } from "react-icons";
 import { FaHospital, FaUserMd, FaProcedures, FaUserAlt, FaUserPlus, FaBriefcaseMedical, FaStethoscope } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
 import { FaCalendarCheck } from "react-icons/fa6";
+import { MdWorkHistory } from "react-icons/md";
 
 
 
@@ -52,6 +53,12 @@ export const asideWithCurrentUser: IAsideItem[] = [
     },
     {
         id: 7,
+        to: '/horarios',
+        icon: MdWorkHistory,
+        text: 'Horarios'
+    },
+    {
+        id: 8,
         to: '/configuraciones',
         icon: IoMdSettings,
         text: 'Configuración'
@@ -60,13 +67,13 @@ export const asideWithCurrentUser: IAsideItem[] = [
 
 export const asideWithoutCurrentUser: IAsideItem[] = [
     {
-        id: 8,
+        id: 9,
         to: '/cuenta/inicio-de-sesion',
         icon: FaUserAlt,
         text: 'Iniciar sesión'
     },
     {
-        id: 9,
+        id: 10,
         to: '/cuenta/registro',
         icon: FaUserPlus,
         text: 'Registrarse'

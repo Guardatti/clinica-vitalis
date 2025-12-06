@@ -4,27 +4,27 @@ import { API_URL } from "../utils/util";
 
 
 interface IData {
-    search?: string;
-    state?: string;
+    professionalID?: string;
+    dayOfWeek?: string;
 }
 
-export const getSocialsWorks = async (currentUser: IUser | null, data: IData = {}) => {
+export const getWorkSchudles = async (currentUser: IUser | null, data: IData = {}) => {
 
     const params: Record<string, string> = {};
     
-    if (data.search) {
-        params.search = data.search;
+    if (data.professionalID) {
+        params.professionalID = data.professionalID;
     }
 
-    if (data.state) {
-        params.state = data.state;
+    if (data.dayOfWeek) {
+        params.dayOfWeek = data.dayOfWeek;
     }
 
     const queryString = new URLSearchParams(params).toString();
 
     try {
 
-        const data = await fetch(`${API_URL}/socials_works?${queryString}`, {
+        const data = await fetch(`${API_URL}/work_schedules?${queryString}`, {
             method: "GET",
             headers: {
             "Content-Type": "application/json",
@@ -33,12 +33,12 @@ export const getSocialsWorks = async (currentUser: IUser | null, data: IData = {
         })
 
         if (!data) {
-            throw new Error('No hay obras sociales cargadas en el sistema');
+            throw new Error('No hay horarios cargados en el sistema');
         }
 
         const response = await data.json()
         
-        return response.socialsWorks
+        return response.schedules
         
     } catch (error) {
         console.log(error);       

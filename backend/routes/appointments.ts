@@ -2,8 +2,9 @@ import { Router } from "express";
 import { validatorJWT } from "../middlewares/validatorJWT";
 import { collectionErrors } from "../middlewares/collectionErrors";
 import { check } from "express-validator";
-import { createShift, getShifts, updateShift } from "../controllers/shifts";
+import { createAppointment, getAppointements, updateAppointment } from "../controllers/appointments";
 import { isAdmin } from "../middlewares/validatorAdmin";
+import { checkAppointmentAvailability } from "../helpers/validationsDB";
 
 
 
@@ -14,7 +15,7 @@ router.get('/',
         validatorJWT,
         collectionErrors
     ],
-    getShifts
+    getAppointements
 )
 
 router.post('/',
@@ -24,10 +25,11 @@ router.post('/',
         check("patientID", "El paciente es obligatorio").not().isEmpty(),
         check("professionalID", "El profesional es obligatorio").not().isEmpty(),
         check("date", "La fecha es obligatoria").not().isEmpty(),
+        check("date").custom(checkAppointmentAvailability),
         check("description", "La descripción es obligatoria").not().isEmpty(),
         collectionErrors
     ],
-    createShift
+    createAppointment
 )
 
 router.patch('/:id',
@@ -37,11 +39,12 @@ router.patch('/:id',
         check("patientID", "El paciente es obligatorio").not().isEmpty(),
         check("professionalID", "El profesional es obligatorio").not().isEmpty(),
         check("date", "La fecha es obligatoria").not().isEmpty(),
+        check("date").custom(checkAppointmentAvailability),
         check("description", "La descripción es obligatoria").not().isEmpty(),
         check("state", "El estado es obligatorio").not().isEmpty(),
         collectionErrors
     ],
-    updateShift
+    updateAppointment
 )
 
 export default router;

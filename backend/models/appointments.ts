@@ -2,9 +2,9 @@ import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../database/config";
 import { Patients } from "./patients";
 import { Professionals } from "./professionals";
-import { STATES_SHIFTS } from "../helpers/constants";
+import { STATES_APPOINTMENTS } from "../helpers/constants";
 
-export interface IShifts {
+export interface IAppointment {
     id: number;
     patientID: number;
     professionalID: number;
@@ -13,17 +13,17 @@ export interface IShifts {
     state?: string;
 }
 
-interface IShiftsAttributes extends Optional<IShifts, 'id'> {}
+interface IAppointmentsAttributes extends Optional<IAppointment, 'id'> {}
 
-interface ShiftInstance extends Model<IShifts, IShiftsAttributes>, IShifts {}
+interface AppointementInstance extends Model<IAppointment, IAppointmentsAttributes>, IAppointment {}
 
-export const Shifts = sequelize.define<ShiftInstance>('Turnos', {
+export const Appointments = sequelize.define<AppointementInstance>('Turnos', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     },
-        patientID: {
+    patientID: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
@@ -31,7 +31,7 @@ export const Shifts = sequelize.define<ShiftInstance>('Turnos', {
             key: 'id'
         }
     },
-        professionalID: {
+    professionalID: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
@@ -45,11 +45,19 @@ export const Shifts = sequelize.define<ShiftInstance>('Turnos', {
     },
     description: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     state: {
-        type: DataTypes.STRING,
-        defaultValue: STATES_SHIFTS.pending,
+        type: DataTypes.ENUM(...Object.values(STATES_APPOINTMENTS)), 
+        defaultValue: STATES_APPOINTMENTS.pending,
         allowNull: false,
     }
-})
+}, {
+    indexes: [
+        {
+            unique: true,
+            fields: ['professionalID', 'date'],
+            name: 'unique_appointment_per_pro'
+        }
+    ]
+});

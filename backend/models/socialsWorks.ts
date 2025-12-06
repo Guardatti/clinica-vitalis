@@ -28,7 +28,7 @@ export const SocialsWorks = sequelize.define<SocialWorkInstance>('Obras_Sociales
         unique: true
     },
     state: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM(...Object.values(STATES_SOCIALSWORKS)),
         allowNull: false,
         defaultValue: STATES_SOCIALSWORKS.active
     },

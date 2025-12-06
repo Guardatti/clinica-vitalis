@@ -63,7 +63,7 @@ export const Professionals = sequelize.define<ProfessionalInstance>('Profesional
         }
     },
     specialityID: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
         references: {
             model: 'Especialidades',
@@ -71,7 +71,7 @@ export const Professionals = sequelize.define<ProfessionalInstance>('Profesional
         }
     },
     state: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM(...Object.values(STATES_PROFESSIONALS)),
         allowNull: false,
         defaultValue: STATES_PROFESSIONALS.active
     }

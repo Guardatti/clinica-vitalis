@@ -3,7 +3,7 @@ export const ROLES = {
     user: "50yunUs3r",
 }
 
-export const STATES_SHIFTS = {
+export const STATES_APPOINTMENTS = {
     pending: "Pendiente",
     completed: "Atendido",
     cancelled: "Cancelado",

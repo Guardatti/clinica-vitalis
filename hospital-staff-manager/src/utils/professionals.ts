@@ -13,4 +13,9 @@ export interface IProfessional {
     Especialidade?: {
         name: string
     }
+    Horarios_Trabajo?: {
+        dayOfWeek: number;
+        startTime: string;
+        endTime: string;
+    }
 }

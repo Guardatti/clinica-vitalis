@@ -1,4 +1,5 @@
 import type { IUser } from "../utils/interfaceFormRegister_Login/interface";
+import { API_URL } from "../utils/util";
 
 
 
@@ -34,7 +35,7 @@ export const getProfessionals = async (currentUser: IUser | null, data: IData = 
 
     try {
 
-        const data = await fetch(`http://localhost:8080/professionals?${queryString}`, {
+        const data = await fetch(`${API_URL}/professionals?${queryString}`, {
             method: "GET",
             headers: {
             "Content-Type": "application/json",

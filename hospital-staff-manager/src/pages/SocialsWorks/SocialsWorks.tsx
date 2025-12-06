@@ -32,7 +32,7 @@ const SocialsWorks: React.FC = () => {
             
             setLoading(true)
 
-            await new Promise(resolve => setTimeout(resolve, 1500)); 
+            await new Promise(resolve => setTimeout(resolve, 1000)); 
 
             const response: ISocialWork[] = await getSocialsWorks(currentUser, data);
 
@@ -54,7 +54,7 @@ const SocialsWorks: React.FC = () => {
 
                 setLoading(true)
 
-                await new Promise(resolve => setTimeout(resolve, 1500)); 
+                await new Promise(resolve => setTimeout(resolve, 1000)); 
                 
                 const response: ISocialWork[] = await getSocialsWorks(currentUser);
 

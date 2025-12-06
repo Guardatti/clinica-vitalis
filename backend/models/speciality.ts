@@ -25,7 +25,7 @@ export const Speciality = sequelize.define<SpecialityInstance>('Especialidades',
         unique: true
     },
     state: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM(...Object.values(STATES_SPECIALITIES)),
         allowNull: false,
         defaultValue: STATES_SPECIALITIES.active
     }

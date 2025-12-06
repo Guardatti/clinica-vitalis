@@ -38,7 +38,7 @@ const Patients: React.FC = () => {
             
             setLoading(true)
 
-            await new Promise(resolve => setTimeout(resolve, 1500)); 
+            await new Promise(resolve => setTimeout(resolve, 1000)); 
 
             const response: IPatient[] = await getPatients(currentUser, data);
 
@@ -60,7 +60,7 @@ const Patients: React.FC = () => {
 
                 setLoading(true)
 
-                await new Promise(resolve => setTimeout(resolve, 1500)); 
+                await new Promise(resolve => setTimeout(resolve, 1000)); 
                 
                 const [patientsData, socialsWorksData] = await Promise.all([
                         getPatients(currentUser),
@@ -103,7 +103,7 @@ const Patients: React.FC = () => {
                         </select>
                     </div>
                     {
-                        socialsWorks.length > 0 &&
+                        socialsWorks?.length > 0 &&
                         <div className='container-select-patient'>
                             <select {...register('socialWorkId')}>
                                 <option value="">Obras sociales</option>

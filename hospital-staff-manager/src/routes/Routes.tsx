@@ -9,6 +9,7 @@ import ProtectedRoute from '../components/protectedRoute/protectedRoute'
 import SocialsWorks from '../pages/SocialsWorks/SocialsWorks'
 import Professionals from '../pages/Professionals/Professionals'
 import Specialities from '../pages/Specialities/Specialities'
+import WorkSchedules from '../pages/workSchedules/WorkSchedules'
 
 
 
@@ -36,13 +37,49 @@ const Routes: React.FC = () => {
                         </ProtectedRoute>
                     } />
 
+                    <Route path='/profesionales/crear' element={
+                        <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
+                            <Home/> 
+                        </ProtectedRoute>
+                    } />
+
+                    <Route path='/profesionales/editar/:id' element={
+                        <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
+                            <Home/>
+                        </ProtectedRoute>
+                    } />
+
                     <Route path='/pacientes' element={
                         <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
                             <Patients/>
                         </ProtectedRoute>
                     } />
 
+                    <Route path='/pacientes/crear' element={
+                        <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
+                            <Home/>
+                        </ProtectedRoute>
+                    } />
+
+                    <Route path='/pacientes/editar/:id' element={
+                        <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
+                            <Home/>
+                        </ProtectedRoute>
+                    } />
+
+
                     <Route path='/turnos' element={
+                        <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
+                            <Home/>
+                        </ProtectedRoute>
+                    } />
+                    <Route path='/turnos/crear' element={
+                        <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
+                            <Home/>
+                        </ProtectedRoute>
+                    } />
+
+                    <Route path='/turnos/editar/:id' element={
                         <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
                             <Home/>
                         </ProtectedRoute>
@@ -54,9 +91,51 @@ const Routes: React.FC = () => {
                         </ProtectedRoute>
                     } />
 
+                    <Route path='/obras_sociales/crear' element={
+                        <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
+                            <Home/>
+                        </ProtectedRoute>
+                    } />
+
+                    <Route path='/obras_sociales/editar/:id' element={
+                        <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
+                            <Home/>
+                        </ProtectedRoute>
+                    } />
+
                     <Route path='/especialidades' element={
                         <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
                             <Specialities/>
+                        </ProtectedRoute>
+                    } />
+
+                    <Route path='/especialidades/crear' element={
+                        <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
+                            <Home/>
+                        </ProtectedRoute>
+                    } />
+
+                    <Route path='/especialidades/editar/:id' element={
+                        <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
+                            <Home/>
+                        </ProtectedRoute>
+                    } />
+
+                    <Route path='/horarios' element={
+                        <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
+                            <WorkSchedules/>
+                        </ProtectedRoute>
+                    } />
+
+                    <Route path='/horarios/crear' element={
+                        <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
+                            <Home/>
+                        </ProtectedRoute>
+                    } />
+
+                    <Route path='/horarios/editar/:id' element={
+                        <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
+                            <Home/>
                         </ProtectedRoute>
                     } />
 
