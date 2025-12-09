@@ -10,6 +10,10 @@ import SocialsWorks from '../pages/SocialsWorks/SocialsWorks'
 import Professionals from '../pages/Professionals/Professionals'
 import Specialities from '../pages/Specialities/Specialities'
 import WorkSchedules from '../pages/workSchedules/WorkSchedules'
+import SocialWork from '../pages/Crud/Create/SocialWork'
+import Speciality from '../pages/Crud/Create/Speciality'
+import Professional from '../pages/Crud/Create/Professional'
+import Patient from '../pages/Crud/Create/Patient'
 
 
 
@@ -39,7 +43,7 @@ const Routes: React.FC = () => {
 
                     <Route path='/profesionales/crear' element={
                         <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
-                            <Home/> 
+                            <Professional/> 
                         </ProtectedRoute>
                     } />
 
@@ -57,7 +61,7 @@ const Routes: React.FC = () => {
 
                     <Route path='/pacientes/crear' element={
                         <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
-                            <Home/>
+                            <Patient/>
                         </ProtectedRoute>
                     } />
 
@@ -93,7 +97,7 @@ const Routes: React.FC = () => {
 
                     <Route path='/obras_sociales/crear' element={
                         <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
-                            <Home/>
+                            <SocialWork/>
                         </ProtectedRoute>
                     } />
 
@@ -111,7 +115,7 @@ const Routes: React.FC = () => {
 
                     <Route path='/especialidades/crear' element={
                         <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
-                            <Home/>
+                            <Speciality/>
                         </ProtectedRoute>
                     } />
 

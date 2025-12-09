@@ -1,4 +1,6 @@
+import Swal from "sweetalert2";
 import type { IUser } from "../utils/interfaceFormRegister_Login/interface";
+import type { IPatient } from "../utils/patients";
 import { API_URL } from "../utils/util";
 
 
@@ -53,6 +55,37 @@ export const getPatients = async (currentUser: IUser | null, data: IData = {}) =
         
     } catch (error) {
         console.log(error);       
+    }
+
+}
+
+export const createPatient = async (currentUser: IUser | null, data: IPatient) => {
+    
+    try {
+
+        const response = await fetch(`${API_URL}/patients`, {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            "x-token": currentUser?.token || ""
+            },
+            body: JSON.stringify(data)
+        })
+
+        if (!response.ok) {
+
+            Swal.fire({
+                icon: "error",
+                title: "¡Paciente ya existente!",
+            });
+
+            return
+        }
+
+        return response
+
+    } catch (error) {
+        console.log(error);
     }
 
 }

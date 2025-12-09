@@ -8,6 +8,8 @@ import type { IPatient } from '../../utils/patients';
 import { getPatients } from '../../fetch/fetchPatients';
 import { getSocialsWorks } from '../../fetch/fetchSocialsWorks';
 import type { ISocialWork } from '../../utils/socialsWorks';
+import { FaTrashAlt } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -31,6 +33,8 @@ const Patients: React.FC = () => {
     const { register, handleSubmit } = useForm<FormData>()
 
     const form = useRef<HTMLFormElement>(null);
+
+    const navigate = useNavigate()
 
     const onSubmit = async (data: FormData) => {
 
@@ -89,7 +93,7 @@ const Patients: React.FC = () => {
             </div>
             <div className='container-patients-btn-and-form'>
                 <div className='container-btn-new-patient'>
-                    <button>+ Crear paciente</button>
+                    <button onClick={() => navigate('/pacientes/crear')}>+ Crear paciente</button>
                 </div>
                 <form ref={form} onSubmit={handleSubmit(onSubmit)} className='form-patients'>
                     <div className='container-input-patient'>
@@ -162,8 +166,9 @@ const Patients: React.FC = () => {
                                             </span>
                                         </td>
                                         <td className='container-icons-patient'>
-                                            <MdVisibility style={{color: '007bff', cursor: 'pointer', fontSize: '1rem'}}/>
-                                            <MdEdit style={{color: 'fd7e14', cursor: 'pointer', fontSize: '1rem'}}/>
+                                            <MdVisibility style={{color: '#546E7A', cursor: 'pointer', fontSize: '1rem'}}/>
+                                            <MdEdit style={{color: '#1976D2', cursor: 'pointer', fontSize: '1rem'}}/>
+                                            <FaTrashAlt style={{color: '#FF3B30', cursor: 'pointer', fontSize: '1rem'}}/>
                                         </td>
                                     </tr>
                                 )

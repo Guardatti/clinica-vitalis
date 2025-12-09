@@ -3,13 +3,13 @@ export interface IProfessional {
     name: string;
     surname: string;
     dni: number;
-    birthdate: Date;
+    birthdate: string;
     gender: string;
     address: string;
     phone: string;
     email: string;
     specialityID: string;
-    state: string;
+    state?: string;
     Especialidade?: {
         name: string
     }

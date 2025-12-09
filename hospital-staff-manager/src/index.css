@@ -20,6 +20,7 @@
     --table-content: #000000;
     --bg-input: #FFFFFF;
     --bg-select: #FFFFFF;
+    --form-spinner-border: #f7f7f7;
 }
 
 /*Dark*/
@@ -44,6 +45,7 @@ body.dark {
     --table-content: #FFFFFF;
     --bg-input: #1A1F2E;
     --bg-select: #1A1F2E;
+    --form-spinner-border: #0F1419;
 }
 
 body {

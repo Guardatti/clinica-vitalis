@@ -8,6 +8,8 @@ import type { IProfessional } from '../../utils/professionals';
 import { getProfessionals } from '../../fetch/fetchProfessionals';
 import type { ISpeciality } from '../../utils/speciality';
 import { getSpecialities } from '../../fetch/fetchSpecialities';
+import { FaTrashAlt } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -30,6 +32,8 @@ const Professionals: React.FC = () => {
     const { register, handleSubmit } = useForm<FormData>()
 
     const form = useRef<HTMLFormElement>(null);
+
+    const navigate = useNavigate()
 
     const onSubmit = async (data: FormData) => {
 
@@ -89,7 +93,7 @@ const Professionals: React.FC = () => {
             </div>
             <div className='container-professionals-btn-and-form'>
                 <div className='container-btn-new-professional'>
-                    <button>+ Crear profesional</button>
+                    <button onClick={() => navigate('/profesionales/crear')}>+ Crear profesional</button>
                 </div>
                 <form ref={form} onSubmit={handleSubmit(onSubmit)} className='form-professionals'>
                     <div className='container-input-professional'>
@@ -162,15 +166,16 @@ const Professionals: React.FC = () => {
                                             </span>
                                         </td>
                                         <td className='container-icons-professional'>
-                                            <MdVisibility style={{color: '007bff', cursor: 'pointer', fontSize: '1rem'}}/>
-                                            <MdEdit style={{color: 'fd7e14', cursor: 'pointer', fontSize: '1rem'}}/>
+                                            <MdVisibility style={{color: '#546E7A', cursor: 'pointer', fontSize: '1rem'}}/>
+                                            <MdEdit style={{color: '#1976D2', cursor: 'pointer', fontSize: '1rem'}}/>
+                                            <FaTrashAlt style={{color: '#FF3B30', cursor: 'pointer', fontSize: '1rem'}}/>
                                         </td>
                                     </tr>
                                 )
                             })
                             :
                             <tr>
-                                <td colSpan={5} style={{textAlign: 'center'}}>No hay pacientes cargados</td>
+                                <td colSpan={5} style={{textAlign: 'center'}}>No hay profesionales cargados</td>
                             </tr>
                         }
                     </tbody>

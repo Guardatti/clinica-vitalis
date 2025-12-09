@@ -8,6 +8,7 @@ import type { IProfessional } from '../../utils/professionals';
 import { getProfessionals } from '../../fetch/fetchProfessionals';
 import { DAYS_OF_WEEK, type IWorkSchedule } from '../../utils/workSchedules';
 import { getWorkSchudles } from '../../fetch/fetchWorkSchudles';
+import { FaTrashAlt } from 'react-icons/fa';
 
 
 
@@ -150,8 +151,9 @@ const WorkSchedules: React.FC = () => {
                                         <td>{DAYS_OF_WEEK[Number(x.dayOfWeek)]}</td>
                                         <td>{x.startTime} a {x.endTime}</td>
                                         <td className='container-icons-workschedule'>
-                                            <MdVisibility style={{color: '007bff', cursor: 'pointer', fontSize: '1rem'}}/>
-                                            <MdEdit style={{color: 'fd7e14', cursor: 'pointer', fontSize: '1rem'}}/>
+                                            <MdVisibility style={{color: '#546E7A', cursor: 'pointer', fontSize: '1rem'}}/>
+                                            <MdEdit style={{color: '#1976D2', cursor: 'pointer', fontSize: '1rem'}}/>
+                                            <FaTrashAlt style={{color: '#FF3B30', cursor: 'pointer', fontSize: '1rem'}}/>
                                         </td>
                                     </tr>
                                 )

@@ -6,6 +6,8 @@ import { useForm } from 'react-hook-form';
 import type { ISocialWork } from '../../utils/socialsWorks';
 import { getSocialsWorks } from '../../fetch/fetchSocialsWorks';
 import { MdVisibility, MdEdit } from "react-icons/md";
+import { useNavigate } from 'react-router-dom';
+import { FaTrashAlt } from 'react-icons/fa';
 
 
 
@@ -25,6 +27,8 @@ const SocialsWorks: React.FC = () => {
     const { register, handleSubmit } = useForm<FormData>()
 
     const form = useRef<HTMLFormElement>(null);
+
+    const navigate = useNavigate()
 
     const onSubmit = async (data: FormData) => {
 
@@ -79,7 +83,7 @@ const SocialsWorks: React.FC = () => {
             </div>
             <div className='container-socials-works-btn-and-form'>
                 <div className='container-btn-new-social-work'>
-                    <button>+ Crear obra social</button>
+                    <button onClick={() => navigate('/obras_sociales/crear')}>+ Crear obra social</button>
                 </div>
                 <form ref={form} onSubmit={handleSubmit(onSubmit)} className='form-socials-works'>
                     <div className='container-input-social-work'>
@@ -126,8 +130,9 @@ const SocialsWorks: React.FC = () => {
                                             </span>
                                         </td>
                                         <td className='container-icons-social-work'>
-                                            <MdVisibility style={{color: '007bff', cursor: 'pointer', fontSize: '1rem'}}/>
-                                            <MdEdit style={{color: 'fd7e14', cursor: 'pointer', fontSize: '1rem'}}/>
+                                            <MdVisibility style={{color: '#546E7A', cursor: 'pointer', fontSize: '1rem'}}/>
+                                            <MdEdit style={{color: '#1976D2', cursor: 'pointer', fontSize: '1rem'}}/>
+                                            <FaTrashAlt style={{color: '#FF3B30', cursor: 'pointer', fontSize: '1rem'}}/>
                                         </td>
                                     </tr>
                                 )

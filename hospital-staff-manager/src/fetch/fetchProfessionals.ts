@@ -1,4 +1,6 @@
+import Swal from "sweetalert2";
 import type { IUser } from "../utils/interfaceFormRegister_Login/interface";
+import type { IProfessional } from "../utils/professionals";
 import { API_URL } from "../utils/util";
 
 
@@ -55,4 +57,35 @@ export const getProfessionals = async (currentUser: IUser | null, data: IData = 
         console.log(error);       
     }
 
-} 
+}
+
+export const createProfessional = async (currentUser: IUser | null, data: IProfessional) => {
+    
+    try {
+
+        const response = await fetch(`${API_URL}/professionals`, {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            "x-token": currentUser?.token || ""
+            },
+            body: JSON.stringify(data)
+        })
+
+        if (!response.ok) {
+
+            Swal.fire({
+                icon: "error",
+                title: "¡Profesional ya existente!",
+            });
+
+            return
+        }
+
+        return response
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}

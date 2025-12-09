@@ -3,11 +3,13 @@ export interface IPatient {
     name: string;
     surname: string;
     dni: number;
-    birthdate: Date;
+    birthdate: string;
     gender: string;
     address: string;
+    phone: string;
+    email: string;
     socialWorkId: string;
-    state: string;
+    state?: string;
     Obras_Sociale?: {
         name: string
     }

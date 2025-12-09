@@ -1,4 +1,6 @@
+import Swal from "sweetalert2";
 import type { IUser } from "../utils/interfaceFormRegister_Login/interface";
+import type { ISocialWork } from "../utils/socialsWorks";
 import { API_URL } from "../utils/util";
 
 
@@ -44,4 +46,35 @@ export const getSocialsWorks = async (currentUser: IUser | null, data: IData = {
         console.log(error);       
     }
 
-} 
+}
+
+export const createSocialWork = async (currentUser: IUser | null, data: ISocialWork) => {
+    
+    try {
+
+        const response = await fetch(`${API_URL}/socials_works`, {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            "x-token": currentUser?.token || ""
+            },
+            body: JSON.stringify(data)
+        })
+
+        if (!response.ok) {
+
+            Swal.fire({
+                icon: "error",
+                title: "¡Obra social ya existente!",
+            });
+
+            return
+        }
+
+        return response
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}

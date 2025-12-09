@@ -6,6 +6,8 @@ import { useForm } from 'react-hook-form';
 import { MdEdit } from "react-icons/md";
 import type { ISpeciality } from '../../utils/speciality';
 import { getSpecialities } from '../../fetch/fetchSpecialities';
+import { useNavigate } from 'react-router-dom';
+import { FaTrashAlt } from 'react-icons/fa';
 
 
 
@@ -25,6 +27,8 @@ const Specialities: React.FC = () => {
     const { register, handleSubmit } = useForm<FormData>()
 
     const form = useRef<HTMLFormElement>(null);
+
+    const navigate = useNavigate();
 
     const onSubmit = async (data: FormData) => {
 
@@ -79,7 +83,7 @@ const Specialities: React.FC = () => {
             </div>
             <div className='container-specialities-btn-and-form'>
                 <div className='container-btn-new-speciality'>
-                    <button>+ Crear especialidad</button>
+                    <button onClick={() => navigate('/especialidades/crear')}>+ Crear especialidad</button>
                 </div>
                 <form ref={form} onSubmit={handleSubmit(onSubmit)} className='form-specialities'>
                     <div className='container-input-speciality'>
@@ -126,7 +130,8 @@ const Specialities: React.FC = () => {
                                             </span>
                                         </td>
                                         <td className='container-icons-speciality'>
-                                            <MdEdit style={{color: 'fd7e14', cursor: 'pointer', fontSize: '1rem'}}/>
+                                            <MdEdit style={{color: '#1976D2', cursor: 'pointer', fontSize: '1rem'}}/>
+                                            <FaTrashAlt style={{color: '#FF3B30', cursor: 'pointer', fontSize: '1rem'}}/>
                                         </td>
                                     </tr>
                                 )
