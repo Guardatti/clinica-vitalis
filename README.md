@@ -4,13 +4,18 @@
 
 **Clínica Vitalis** es una plataforma administrativa diseñada para optimizar el flujo de trabajo interno. Este proyecto resuelve la necesidad de gestionar el personal médico y realizar la admisión de pacientes, enfocándose en la **asignación eficiente de recursos**.
 
-El objetivo principal fue construir un **MVP (Producto Mínimo Viable)** robusto utilizando el stack MERN con TypeScript, demostrando el manejo de bases de datos relacionales (referencias) dentro de un entorno NoSQL.
+El objetivo principal fue construir un **MVP (Producto Mínimo Viable)** robusto utilizando el stack MERN con TypeScript, demostrando el manejo de bases de datos relacionales
 
 ## ✨ Características Principales
 
-* **👨‍⚕️ Gestión de Profesionales:** Alta y modificación de médicos con categorización por especialidad (Cardiología, Pediatría, etc.).
+* **👨‍⚕️ Gestión de Profesionales:** Alta, baja, modificación y consulta.
+* **👨‍⚕️ Gestión de Pacientes:** Alta, baja, modificación y consulta.
+* **👨‍⚕️ Gestión de Horarios de Trabajo:**Alta, baja, modificación y consulta.
+* **👨‍⚕️ Gestión de Turnos:** Alta, baja, modificación y consulta.
+* **👨‍⚕️ Gestión de Especialidades:** Alta, baja, modificación y consulta.
+* **👨‍⚕️ Gestión de Obras Sociales:** Alta, baja, modificación y consulta.
 * **🏥 Admisión de Pacientes:** Sistema de registro con vinculación dinámica a médico de cabecera.
-* **🔍 Filtrado Inteligente:** Búsqueda por filtros para pacientes, profesionales y turnos.
+* **🔍 Filtrado Inteligente:** Búsqueda por filtros para profesionales, pacientes, horarios de trabajo, turnos, especialidades y obra sociales.
 
 ## 🛠️ Stack Tecnológico
 
