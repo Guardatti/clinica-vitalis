@@ -10,7 +10,7 @@ El objetivo principal fue construir un **MVP (Producto Mínimo Viable)** robusto
 
 * **👨‍⚕️ Gestión de Profesionales:** Alta, baja, modificación y consulta.
 * **👨‍⚕️ Gestión de Pacientes:** Alta, baja, modificación y consulta.
-* **👨‍⚕️ Gestión de Horarios de Trabajo:**Alta, baja, modificación y consulta.
+* **👨‍⚕️ Gestión de Horarios de Trabajo:** Alta, baja, modificación y consulta.
 * **👨‍⚕️ Gestión de Turnos:** Alta, baja, modificación y consulta.
 * **👨‍⚕️ Gestión de Especialidades:** Alta, baja, modificación y consulta.
 * **👨‍⚕️ Gestión de Obras Sociales:** Alta, baja, modificación y consulta.
