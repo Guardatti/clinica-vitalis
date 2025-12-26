@@ -8,13 +8,13 @@ El objetivo principal fue construir un **MVP (Producto Mínimo Viable)** robusto
 
 ## ✨ Características Principales
 
-* **👨‍⚕️ Gestión de Profesionales:** Alta, baja, modificación y consulta.
-* **👨‍⚕️ Gestión de Pacientes:** Alta, baja, modificación y consulta.
-* **👨‍⚕️ Gestión de Horarios de Trabajo:** Alta, baja, modificación y consulta.
-* **👨‍⚕️ Gestión de Turnos:** Alta, baja, modificación y consulta.
-* **👨‍⚕️ Gestión de Especialidades:** Alta, baja, modificación y consulta.
-* **👨‍⚕️ Gestión de Obras Sociales:** Alta, baja, modificación y consulta.
-* **🔍 Filtrado Inteligente:** Búsqueda por filtros para profesionales, pacientes, horarios de trabajo, turnos, especialidades y obra sociales.
+* **👨‍⚕️ Gestión de Profesionales**
+* **👨‍⚕️ Gestión de Pacientes**
+* **👨‍⚕️ Gestión de Horarios de Trabajo**
+* **👨‍⚕️ Gestión de Turnos**
+* **👨‍⚕️ Gestión de Especialidades**
+* **👨‍⚕️ Gestión de Obras Sociales**
+* **🔍 Filtrado Inteligente** 
 
 ## 🛠️ Stack Tecnológico
 
