@@ -15,7 +15,6 @@ El objetivo principal fue construir un **MVP (Producto Mínimo Viable)** robusto
 * **👨‍⚕️ Gestión de Especialidades:** Alta, baja, modificación y consulta.
 * **👨‍⚕️ Gestión de Obras Sociales:** Alta, baja, modificación y consulta.
 * **🔍 Filtrado Inteligente:** Búsqueda por filtros para profesionales, pacientes, horarios de trabajo, turnos, especialidades y obra sociales.
-* **📊 Vista General con Gráficos:** Proporciona una vista resumida y visual de los datos clave, incluyendo estadísticas de pacientes, profesionales, turnos y más, con gráficos interactivos para una toma de decisiones más ágil y eficaz.
 
 ## 🛠️ Stack Tecnológico
 
