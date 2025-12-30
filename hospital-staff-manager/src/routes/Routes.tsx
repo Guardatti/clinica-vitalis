@@ -18,6 +18,7 @@ import Settings from '../pages/Settings/Settings'
 import Appointments from '../pages/Appointements/Appointments'
 import WorkSchedule from '../pages/Crud/WorkSchedule'
 import Appointment from '../pages/Crud/Appointment'
+import NotFound from '../pages/NotFound/NotFound'
 
 
 
@@ -182,6 +183,8 @@ const Routes: React.FC = () => {
                         <Route path="inicio-de-sesion" element={<Login />}/>
                         <Route path="registro" element={<Register />} />
                     </Route>
+
+                    <Route path='*' element={<NotFound />} />
 
                 </ReactRoutes>
 

@@ -95,7 +95,7 @@ const WorkSchedule: React.FC = () => {
 
                 const dataProfessional = await getProfessionals(currentUser)
 
-                setProfessionals(dataProfessional)
+                setProfessionals(dataProfessional.professionals)
 
                 if (id) {
 

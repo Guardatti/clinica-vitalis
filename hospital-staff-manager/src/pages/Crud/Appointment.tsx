@@ -106,7 +106,7 @@ const Appointment: React.FC = () => {
                 ])
 
                 setPatients(dataPatients)
-                setProfessionals(dataProfessionals)
+                setProfessionals(dataProfessionals.professionals)
 
                 if (id) {
 
