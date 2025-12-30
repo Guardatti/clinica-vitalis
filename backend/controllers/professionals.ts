@@ -3,6 +3,7 @@ import { Professionals } from "../models/professionals";
 import { Op } from "sequelize";
 import { Speciality } from "../models/speciality";
 import { WorkSchedule } from "../models/workSchedule";
+import { STATES_PROFESSIONALS } from "../helpers/constants";
 
 
 
@@ -75,6 +76,12 @@ export const getProfessionals = async (req: Request, res: Response) => {
             ]
         })
 
+        const countActives = await Professionals.count({
+            where: {
+                    state: STATES_PROFESSIONALS.active
+                },
+        })
+
         if (!professionals) {
             res.status(404).json({
                 msg: "No hay profesionales cargados en el sistema"
@@ -83,7 +90,38 @@ export const getProfessionals = async (req: Request, res: Response) => {
         }
 
         res.status(200).json({
-            professionals
+            professionals,
+            countActives
+        })
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            msg: 'Error del servidor'
+        })
+    }
+
+}
+
+export const getProfessionalById = async (req: Request, res: Response) => {
+
+    try {
+        
+        const { id } = req.params;
+
+        const professional = await Professionals.findByPk(id)
+
+        if (!professional) {
+
+            res.status(404).json({
+                msg: "No hay profesional cargado en el sistema"
+            })
+
+            return
+        }
+
+        res.status(200).json({
+            professional
         })
 
     } catch (error) {

@@ -4,7 +4,7 @@ import { collectionErrors } from "../middlewares/collectionErrors";
 import { check } from "express-validator";
 import { existNameSpeciality, existNameSpecialityById } from "../helpers/validationsDB";
 import { isAdmin } from "../middlewares/validatorAdmin";
-import { createSpeciality, getSpecialities, updateSpeciality } from "../controllers/speciality";
+import { createSpeciality, getSpecialities, getSpecialityById, updateSpeciality } from "../controllers/speciality";
 
 
 
@@ -16,6 +16,14 @@ router.get('/',
         collectionErrors
     ],
     getSpecialities
+)
+
+router.get('/:id',
+    [
+        validatorJWT,
+        collectionErrors
+    ],
+    getSpecialityById
 )
 
 router.post('/',

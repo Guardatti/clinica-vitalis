@@ -3,7 +3,7 @@ import { validatorJWT } from "../middlewares/validatorJWT";
 import { collectionErrors } from "../middlewares/collectionErrors";
 import { check } from "express-validator";
 import { existDNIProfessional, existDNIProfessionalById, existSpecialityById } from "../helpers/validationsDB";
-import { createProfessional, getProfessionals, updateProfessional } from "../controllers/professionals";
+import { createProfessional, getProfessionalById, getProfessionals, updateProfessional } from "../controllers/professionals";
 import { isAdmin } from "../middlewares/validatorAdmin";
 
 
@@ -16,6 +16,14 @@ router.get('/',
         collectionErrors
     ],
     getProfessionals
+)
+
+router.get('/:id',
+    [
+        validatorJWT,
+        collectionErrors
+    ],
+    getProfessionalById
 )
 
 router.post('/',

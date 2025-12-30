@@ -90,6 +90,36 @@ export const getPatients = async (req: Request, res: Response) => {
 
 }
 
+export const getPatientById = async (req: Request, res: Response) => {
+
+    try {
+        
+        const { id } = req.params;
+
+        const patient = await Patients.findByPk(id)
+
+        if (!patient) {
+
+            res.status(404).json({
+                msg: "No hay paciente cargado en el sistema"
+            })
+
+            return
+        }
+
+        res.status(200).json({
+            patient
+        })
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            msg: 'Error del servidor'
+        })
+    }
+
+}
+
 export const updatePatient = async (req: Request, res: Response) => {
 
     const data = req.body;

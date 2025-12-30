@@ -69,6 +69,36 @@ export const getSpecialities = async (req: Request, res: Response) => {
 
 }
 
+export const getSpecialityById = async (req: Request, res: Response) => {
+
+    try {
+        
+        const { id } = req.params;
+
+        const speciality = await Speciality.findByPk(id)
+
+        if (!speciality) {
+
+            res.status(404).json({
+                msg: "No hay especialidad cargada en el sistema"
+            })
+
+            return
+        }
+
+        res.status(200).json({
+            speciality
+        })
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            msg: 'Error del servidor'
+        })
+    }
+
+}
+
 export const updateSpeciality = async (req: Request, res: Response) => {
 
     const data = req.body;

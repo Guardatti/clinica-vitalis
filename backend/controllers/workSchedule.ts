@@ -58,7 +58,7 @@ export const getWorkSchedules = async (req: Request, res: Response) => {
             order: [
                 ['dayOfWeek', 'ASC'], 
                 ['startTime', 'ASC']
-            ] 
+            ],
         });
 
         if (schedules.length === 0) {
@@ -80,6 +80,36 @@ export const getWorkSchedules = async (req: Request, res: Response) => {
             msg: "Error del servidor"
         });
     }
+}
+
+export const getWorkScheduleById = async (req: Request, res: Response) => {
+
+    try {
+        
+        const { id } = req.params;
+
+        const workSchedule = await WorkSchedule.findByPk(id)
+
+        if (!workSchedule) {
+
+            res.status(404).json({
+                msg: "El horario no está cargando en el sistema"
+            })
+
+            return
+        }
+
+        res.status(200).json({
+            workSchedule
+        })
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            msg: 'Error del servidor'
+        })
+    }
+
 }
 
 export const updateWorkSchedule = async (req: Request, res: Response) => {

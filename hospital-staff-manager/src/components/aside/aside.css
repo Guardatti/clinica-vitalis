@@ -49,10 +49,10 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    color: var(--color-text);
-    background: var(--bg-navlink);
+    color: #FFFFFF;
+    background: var(--thead-);
     padding: 0.5rem;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
 .aside-button {

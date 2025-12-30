@@ -2,9 +2,9 @@ import { Router } from "express";
 import { validatorJWT } from "../middlewares/validatorJWT";
 import { collectionErrors } from "../middlewares/collectionErrors";
 import { check } from "express-validator";
-import { createAppointment, getAppointements, updateAppointment } from "../controllers/appointments";
+import { createAppointment, getAppointmentById, getAppointments, updateAppointment } from "../controllers/appointments";
 import { isAdmin } from "../middlewares/validatorAdmin";
-import { checkAppointmentAvailability } from "../helpers/validationsDB";
+import { checkAppointmentAvailability, checkProfessionalSchedule, existDNIPatientById, existDNIProfessionalById } from "../helpers/validationsDB";
 
 
 
@@ -15,7 +15,15 @@ router.get('/',
         validatorJWT,
         collectionErrors
     ],
-    getAppointements
+    getAppointments
+)
+
+router.get('/:id',
+    [
+        validatorJWT,
+        collectionErrors
+    ],
+    getAppointmentById
 )
 
 router.post('/',
@@ -23,9 +31,12 @@ router.post('/',
         validatorJWT,
         isAdmin,
         check("patientID", "El paciente es obligatorio").not().isEmpty(),
+        check("patientID").custom(existDNIPatientById),
         check("professionalID", "El profesional es obligatorio").not().isEmpty(),
+        check("professionalID").custom(existDNIProfessionalById),
         check("date", "La fecha es obligatoria").not().isEmpty(),
         check("date").custom(checkAppointmentAvailability),
+        check("date").custom(checkProfessionalSchedule),
         check("description", "La descripción es obligatoria").not().isEmpty(),
         collectionErrors
     ],
@@ -37,9 +48,12 @@ router.patch('/:id',
         validatorJWT,
         isAdmin,
         check("patientID", "El paciente es obligatorio").not().isEmpty(),
+        check("patientID").custom(existDNIPatientById),
         check("professionalID", "El profesional es obligatorio").not().isEmpty(),
+        check("professionalID").custom(existDNIProfessionalById),
         check("date", "La fecha es obligatoria").not().isEmpty(),
         check("date").custom(checkAppointmentAvailability),
+        check("date").custom(checkProfessionalSchedule),
         check("description", "La descripción es obligatoria").not().isEmpty(),
         check("state", "El estado es obligatorio").not().isEmpty(),
         collectionErrors

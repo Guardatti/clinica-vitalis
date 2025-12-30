@@ -3,7 +3,7 @@ import { validatorJWT } from "../middlewares/validatorJWT";
 import { collectionErrors } from "../middlewares/collectionErrors";
 import { check } from "express-validator";
 import { existDNIPatient, existDNIPatientById, existSocialWorkById } from "../helpers/validationsDB";
-import { createPatient, getPatients, updatePatient } from "../controllers/patients";
+import { createPatient, getPatientById, getPatients, updatePatient } from "../controllers/patients";
 import { isAdmin } from "../middlewares/validatorAdmin";
 
 
@@ -16,6 +16,14 @@ router.get('/',
         collectionErrors
     ],
     getPatients
+)
+
+router.get('/:id',
+    [
+        validatorJWT,
+        collectionErrors
+    ],
+    getPatientById
 )
 
 router.post('/',

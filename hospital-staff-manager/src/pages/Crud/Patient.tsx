@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useAppSelector } from '../../../redux/hooks';
+import { useAppSelector } from '../../redux/hooks';
 import Swal from 'sweetalert2';
-import './create.css'
-import { useNavigate } from 'react-router-dom';
-import type { IPatient } from '../../../utils/patients';
-import type { ISocialWork } from '../../../utils/socialsWorks';
-import { getSocialsWorks } from '../../../fetch/fetchSocialsWorks';
-import { createPatient } from '../../../fetch/fetchPatients';
+import './crud.css'
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import type { IPatient } from '../../utils/patients';
+import type { ISocialWork } from '../../utils/socialsWorks';
+import { getSocialsWorks } from '../../fetch/fetchSocialsWorks';
+import { createPatient, getPatientById, updatePatient } from '../../fetch/fetchPatients';
 
 
 
@@ -17,6 +17,12 @@ const Patient: React.FC = () => {
     const form = useRef<HTMLFormElement>(null);
 
     const currentUser = useAppSelector(state => state.user.currentUser)
+
+    const { id } = useParams();
+
+    const location = useLocation();
+
+    const isRead = location.pathname.includes('consultar')
 
     const {register, handleSubmit, formState: {errors}, reset} = useForm<IPatient>()
 
@@ -34,20 +40,42 @@ const Patient: React.FC = () => {
             
             setLoading(true)
 
-            const newPatient = await createPatient(currentUser, data)
-            
-            if (newPatient) {
-                Swal.fire({
-                    title: "¡Paciente creado!",
-                    icon: "success",
-                    draggable: true
-                });
+            if (!id) {
 
-                navigate('/pacientes')
+                const newPatient = await createPatient(currentUser, data)
+                
+                if (newPatient) {
+                    Swal.fire({
+                        title: "¡Paciente creado!",
+                        icon: "success",
+                        draggable: true
+                    });
+
+                    navigate('/pacientes')
+
+                }
+
+                reset();
 
             }
 
-            reset();
+            if (id) {
+
+                const saveChanges = await updatePatient(currentUser, data, id)
+
+                if (saveChanges) {
+                    Swal.fire({
+                        title: "¡Paciente actualizado!",
+                        icon: "success",
+                        draggable: true
+                    });
+
+                    navigate('/pacientes')
+
+                }
+
+                reset();
+            }
 
         } catch (error) {
             console.log(error)
@@ -58,30 +86,38 @@ const Patient: React.FC = () => {
     }
 
     useEffect(( ) => {
-
-        const findSocialsWorks = async (): Promise<void> => {
+    
+        const loadData = async (): Promise<void> => {
 
             try {
 
                 setLoadingForm(true)
 
-                await new Promise(resolve => setTimeout(resolve, 1000)); 
-                
-                const response: ISocialWork[] = await getSocialsWorks(currentUser);
+                const dataSocialsWorks = await getSocialsWorks(currentUser)
 
-                setSocialsWorks(response)
+                setSocialsWorks(dataSocialsWorks)
+
+                if (id) {
+
+                    const data = await getPatientById(currentUser, id)
+
+                    reset({
+                        ...data,
+                        birthdate: data.birthdate?.split('T')[0]
+                    })
+
+                }
 
             } catch (error) {
                 console.log(error);
             } finally {
                 setLoadingForm(false)
             }
-
         }
 
-        findSocialsWorks();
+        loadData();
 
-    }, [currentUser])
+    }, [currentUser, id, reset])
 
     return (
         <section className='container-create'>
@@ -94,13 +130,22 @@ const Patient: React.FC = () => {
                 socialsWorks.length > 0 ?
                 <form ref={form} onSubmit={handleSubmit(onSubmit)}>
                     <div className='container-create-title'>
-                        <h2>Crear paciente</h2>
+                        {
+                            isRead ?
+                            <h2>Consulta de paciente</h2>
+                            :
+                            id ?
+                            <h2>Editar paciente</h2>
+                            : 
+                            <h3>Crear paciente</h3>
+                        }
                     </div>
                     <div className='container-create-input'>
                         <input
                         type="text"
                         {...register('name', {required: true})}
                         placeholder='Nombre'
+                        disabled={isRead}
                         />
                         {errors.name && <span style={{fontSize: '12px', color: 'red', width: '80%'}}>Campo obligatorio</span>}
                     </div>
@@ -109,6 +154,7 @@ const Patient: React.FC = () => {
                         type="text"
                         {...register('surname', {required: true})}
                         placeholder='Apellido'
+                        disabled={isRead}
                         />
                         {errors.surname && <span style={{fontSize: '12px', color: 'red', width: '80%'}}>Campo obligatorio</span>}
                     </div>
@@ -117,6 +163,7 @@ const Patient: React.FC = () => {
                         type="text"
                         {...register('dni', {required: true})}
                         placeholder='DNI'
+                        disabled={isRead}
                         minLength={7}
                         maxLength={9}
                         />
@@ -127,11 +174,12 @@ const Patient: React.FC = () => {
                         type="date"
                         {...register('birthdate', {required: true})}
                         placeholder='Fecha de nacimiento'
+                        disabled={isRead}
                         />
                         {errors.birthdate && <span style={{fontSize: '12px', color: 'red', width: '80%'}}>Campo obligatorio</span>}
                     </div>
                     <div className='container-create-input'>
-                        <select {...register('gender', { required: true })}>
+                        <select {...register('gender', { required: true })} disabled={isRead}>
                             <option value="">Género</option>
                             <option value="Femenino">Femenino</option>
                             <option value="Masculino">Masculino</option>
@@ -143,6 +191,7 @@ const Patient: React.FC = () => {
                         type="text"
                         {...register('address', {required: true})}
                         placeholder='Dirección'
+                        disabled={isRead}
                         />
                         {errors.address && <span style={{fontSize: '12px', color: 'red', width: '80%'}}>Campo obligatorio</span>}
                     </div>
@@ -151,6 +200,7 @@ const Patient: React.FC = () => {
                         type="tel"
                         {...register('phone', {required: true})}
                         placeholder='Télefono o celular'
+                        disabled={isRead}
                         />
                         {errors.address && <span style={{fontSize: '12px', color: 'red', width: '80%'}}>Campo obligatorio</span>}
                     </div>
@@ -159,11 +209,12 @@ const Patient: React.FC = () => {
                         type="email"
                         {...register('email', {required: true})}
                         placeholder='Email'
+                        disabled={isRead}
                         />
                         {errors.address && <span style={{fontSize: '12px', color: 'red', width: '80%'}}>Campo obligatorio</span>}
                     </div>
                     <div className='container-create-input'>
-                        <select {...register('socialWorkId', { required: true })}>
+                        <select {...register('socialWorkId', { required: true })} disabled={isRead}>
                             <option value="">Obra social</option>
                             {
                                 socialsWorks.map((x) => {
@@ -175,12 +226,28 @@ const Patient: React.FC = () => {
                         </select>
                         {errors.socialWorkId && <span style={{fontSize: '12px', color: 'red'}}>Campo obligatorio</span>}
                     </div>
+                    {
+                        id &&
+                        <div className='container-create-input'>
+                            <select {...register('state', { required: true })} disabled={isRead}>
+                                <option value="Activo/a">Activo/a</option>
+                                <option value="Inactivo/a">Inactivo/a</option>
+                            </select>
+                            {errors.state && <span style={{fontSize: '12px', color: 'red', width: '80%'}}>Campo obligatorio</span>}
+                        </div>
+                    }
                     <div className='container-create-button'>
                         {
                             loading ?
                             <button className='loading-create-form' disabled={true}>
                                 <div className='spinner-create-form'/>
                             </button>
+                            :
+                            isRead ?
+                            <div />
+                            :
+                            id ?
+                            <button>Guardar</button>
                             :
                             <button>Crear</button>
                         }

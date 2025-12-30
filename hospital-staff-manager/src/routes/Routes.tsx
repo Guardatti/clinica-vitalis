@@ -10,10 +10,14 @@ import SocialsWorks from '../pages/SocialsWorks/SocialsWorks'
 import Professionals from '../pages/Professionals/Professionals'
 import Specialities from '../pages/Specialities/Specialities'
 import WorkSchedules from '../pages/workSchedules/WorkSchedules'
-import SocialWork from '../pages/Crud/Create/SocialWork'
-import Speciality from '../pages/Crud/Create/Speciality'
-import Professional from '../pages/Crud/Create/Professional'
-import Patient from '../pages/Crud/Create/Patient'
+import SocialWork from '../pages/Crud/SocialWork'
+import Speciality from '../pages/Crud/Speciality'
+import Professional from '../pages/Crud/Professional'
+import Patient from '../pages/Crud/Patient'
+import Settings from '../pages/Settings/Settings'
+import Appointments from '../pages/Appointements/Appointments'
+import WorkSchedule from '../pages/Crud/WorkSchedule'
+import Appointment from '../pages/Crud/Appointment'
 
 
 
@@ -49,7 +53,13 @@ const Routes: React.FC = () => {
 
                     <Route path='/profesionales/editar/:id' element={
                         <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
-                            <Home/>
+                            <Professional/>
+                        </ProtectedRoute>
+                    } />
+
+                    <Route path='/profesionales/consultar/:id' element={
+                        <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
+                            <Professional/>
                         </ProtectedRoute>
                     } />
 
@@ -67,25 +77,37 @@ const Routes: React.FC = () => {
 
                     <Route path='/pacientes/editar/:id' element={
                         <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
-                            <Home/>
+                            <Patient/>
+                        </ProtectedRoute>
+                    } />
+
+                    <Route path='/pacientes/consultar/:id' element={
+                        <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
+                            <Patient/>
                         </ProtectedRoute>
                     } />
 
 
                     <Route path='/turnos' element={
                         <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
-                            <Home/>
+                            <Appointments/>
                         </ProtectedRoute>
                     } />
                     <Route path='/turnos/crear' element={
                         <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
-                            <Home/>
+                            <Appointment/>
                         </ProtectedRoute>
                     } />
 
                     <Route path='/turnos/editar/:id' element={
                         <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
-                            <Home/>
+                            <Appointment/>
+                        </ProtectedRoute>
+                    } />
+
+                    <Route path='/turnos/consultar/:id' element={
+                        <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
+                            <Appointment/>
                         </ProtectedRoute>
                     } />
 
@@ -103,7 +125,13 @@ const Routes: React.FC = () => {
 
                     <Route path='/obras_sociales/editar/:id' element={
                         <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
-                            <Home/>
+                            <SocialWork/>
+                        </ProtectedRoute>
+                    } />
+
+                    <Route path='/obras_sociales/consultar/:id' element={
+                        <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
+                            <SocialWork/>
                         </ProtectedRoute>
                     } />
 
@@ -121,7 +149,7 @@ const Routes: React.FC = () => {
 
                     <Route path='/especialidades/editar/:id' element={
                         <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
-                            <Home/>
+                            <Speciality/>
                         </ProtectedRoute>
                     } />
 
@@ -133,19 +161,19 @@ const Routes: React.FC = () => {
 
                     <Route path='/horarios/crear' element={
                         <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
-                            <Home/>
+                            <WorkSchedule/>
                         </ProtectedRoute>
                     } />
 
                     <Route path='/horarios/editar/:id' element={
                         <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
-                            <Home/>
+                            <WorkSchedule/>
                         </ProtectedRoute>
                     } />
 
                     <Route path='/configuraciones' element={
                         <ProtectedRoute redirectTo='/cuenta/inicio-de-sesion'>
-                            <Home/>
+                            <Settings/>
                         </ProtectedRoute>
                     } />
 

@@ -6,6 +6,7 @@ import { ISpeciality, Speciality } from "../models/speciality"
 import { IUser, User } from "../models/user"
 import { Appointments } from "../models/appointments"
 import { CustomValidator } from "express-validator"
+import { WorkSchedule } from "../models/workSchedule"
 
 
 
@@ -138,7 +139,7 @@ export const existNameSocialWorkById = async (name: string, { req }: any) => {
 
         if (isExisting.id !== Number(req.params.id)) {
 
-            throw new Error(`${name} ya está en uso por otra obra social`);
+            throw new Error(`${name} ya está en uso`);
 
         }
         
@@ -186,7 +187,7 @@ export const existNameSpecialityById = async (name: string, { req }: any) => {
 
         if (isExisting.id !== Number(req.params.id)) {
 
-            throw new Error(`${name} ya está en uso por otra especialidad`);
+            throw new Error(`${name} ya está en uso`);
 
         }
         
@@ -206,18 +207,25 @@ export const existSpecialityById = async (id: number) => {
 
 }
 
-export const checkAppointmentAvailability = async (date: Date, {req}: any) => {
+export const checkAppointmentAvailability = async (date: string, {req}: any) => {
 
     const professionalID = req.body.professionalID;
+    const time = req.body.time;
     const idToIgnore = req.params?.id;
 
-    if (!professionalID) {
-        return true
+    if (!professionalID || !time || !date) {
+        return true;
+    }
+
+    const fullDate = new Date(`${date}T${time}:00`);
+
+    if (isNaN(fullDate.getTime())) {
+        throw new Error("La fecha u hora proporcionada no es válida");
     }
 
     const whereCondition: any = {
         professionalID: professionalID,
-        date: date
+        date: fullDate
     };
 
     if (idToIgnore) {
@@ -229,9 +237,41 @@ export const checkAppointmentAvailability = async (date: Date, {req}: any) => {
     });
 
     if (appointmentExists) {
-        throw new Error(`El profesional ya tiene un turno ocupado en la fecha y hora ${date}`);
+        // Mensaje más amigable
+        throw new Error(`El profesional ya tiene un turno ocupado el ${date} a las ${time}`);
     }
 
+}
+
+export const checkProfessionalSchedule = async (date: string, { req }: any) => {
+    
+    const professionalID = req.body.professionalID;
+    const time = req.body.time;
+
+    if (!professionalID || !time || !date) return true;
+
+    const fullDate = new Date(`${date}T${time}:00`);
+    
+    if (isNaN(fullDate.getTime())) {
+        throw new Error("Formato de fecha u hora inválido");
+    }
+
+    const dayIndex = fullDate.getDay();
+
+    const schedule = await WorkSchedule.findOne({
+        where: {
+            professionalID: professionalID,
+            dayOfWeek: dayIndex 
+        }
+    });
+
+    if (!schedule) {
+        throw new Error(`El profesional no trabaja en la fecha seleccionada.`);
+    }
+
+    if (time < schedule.startTime || time >= schedule.endTime) {
+        throw new Error(`El horario ${time} está fuera de la jornada laboral (${schedule.startTime} a ${schedule.endTime})`);
+    }
 }
 
 export const isValidTimeFormat: CustomValidator = (time: string) => {

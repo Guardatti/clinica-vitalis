@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useAppSelector } from '../../../redux/hooks';
+import { useAppSelector } from '../../redux/hooks';
 import Swal from 'sweetalert2';
-import './create.css'
-import { useNavigate } from 'react-router-dom';
-import type { IProfessional } from '../../../utils/professionals';
-import { createProfessional } from '../../../fetch/fetchProfessionals';
-import { getSpecialities } from '../../../fetch/fetchSpecialities';
-import type { ISpeciality } from '../../../utils/speciality';
+import './crud.css'
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import type { IProfessional } from '../../utils/professionals';
+import { createProfessional, getProfessionalById, updateProfessional } from '../../fetch/fetchProfessionals';
+import { getSpecialities } from '../../fetch/fetchSpecialities';
+import type { ISpeciality } from '../../utils/speciality';
 
 
 
@@ -17,6 +17,12 @@ const Professional: React.FC = () => {
     const form = useRef<HTMLFormElement>(null);
 
     const currentUser = useAppSelector(state => state.user.currentUser)
+
+    const { id } = useParams();
+
+    const location = useLocation();
+
+    const isRead = location.pathname.includes('consultar')
 
     const {register, handleSubmit, formState: {errors}, reset} = useForm<IProfessional>()
 
@@ -34,20 +40,42 @@ const Professional: React.FC = () => {
             
             setLoading(true)
 
-            const newProfessional = await createProfessional(currentUser, data)
-            
-            if (newProfessional) {
-                Swal.fire({
-                    title: "¡Profesional creado!",
-                    icon: "success",
-                    draggable: true
-                });
+            if (!id) {
 
-                navigate('/profesionales')
+                const newProfessional = await createProfessional(currentUser, data)
+                
+                if (newProfessional) {
+                    Swal.fire({
+                        title: "¡Profesional creado!",
+                        icon: "success",
+                        draggable: true
+                    });
+
+                    navigate('/profesionales')
+
+                }
+
+                reset();
 
             }
 
-            reset();
+            if (id) {
+
+                const saveChanges = await updateProfessional(currentUser, data, id)
+
+                if (saveChanges) {
+                    Swal.fire({
+                        title: "¡Profesional actualizado!",
+                        icon: "success",
+                        draggable: true
+                    });
+
+                    navigate('/profesionales')
+
+                }
+
+                reset();
+            }
 
         } catch (error) {
             console.log(error)
@@ -58,30 +86,38 @@ const Professional: React.FC = () => {
     }
 
     useEffect(( ) => {
-
-        const findSpecialities = async (): Promise<void> => {
+    
+        const loadData = async (): Promise<void> => {
 
             try {
 
                 setLoadingForm(true)
 
-                await new Promise(resolve => setTimeout(resolve, 1000)); 
-                
-                const response: ISpeciality[] = await getSpecialities(currentUser);
+                const dataSpeciality = await getSpecialities(currentUser)
 
-                setSpecialities(response)
+                setSpecialities(dataSpeciality)
+
+                if (id) {
+
+                    const data = await getProfessionalById(currentUser, id)
+
+                    reset({
+                        ...data,
+                        birthdate: data.birthdate?.split('T')[0]
+                    })
+
+                }
 
             } catch (error) {
                 console.log(error);
             } finally {
                 setLoadingForm(false)
             }
-
         }
 
-        findSpecialities();
+        loadData();
 
-    }, [currentUser])
+    }, [currentUser, id, reset])
 
     return (
         <section className='container-create'>
@@ -94,13 +130,22 @@ const Professional: React.FC = () => {
                 specialities.length > 0 ?
                 <form ref={form} onSubmit={handleSubmit(onSubmit)}>
                     <div className='container-create-title'>
-                        <h2>Crear profesional</h2>
+                        {
+                            isRead ?
+                            <h2>Consulta de profesional</h2>
+                            :
+                            id ?
+                            <h2>Editar profesional</h2>
+                            : 
+                            <h3>Crear profesional</h3>
+                        }
                     </div>
                     <div className='container-create-input'>
                         <input
                         type="text"
                         {...register('name', {required: true})}
                         placeholder='Nombre'
+                        disabled={isRead}
                         />
                         {errors.name && <span style={{fontSize: '12px', color: 'red', width: '80%'}}>Campo obligatorio</span>}
                     </div>
@@ -109,6 +154,7 @@ const Professional: React.FC = () => {
                         type="text"
                         {...register('surname', {required: true})}
                         placeholder='Apellido'
+                        disabled={isRead}
                         />
                         {errors.surname && <span style={{fontSize: '12px', color: 'red', width: '80%'}}>Campo obligatorio</span>}
                     </div>
@@ -117,6 +163,7 @@ const Professional: React.FC = () => {
                         type="text"
                         {...register('dni', {required: true})}
                         placeholder='DNI'
+                        disabled={isRead}
                         minLength={7}
                         maxLength={9}
                         />
@@ -127,11 +174,12 @@ const Professional: React.FC = () => {
                         type="date"
                         {...register('birthdate', {required: true})}
                         placeholder='Fecha de nacimiento'
+                        disabled={isRead}
                         />
                         {errors.birthdate && <span style={{fontSize: '12px', color: 'red', width: '80%'}}>Campo obligatorio</span>}
                     </div>
                     <div className='container-create-input'>
-                        <select {...register('gender', { required: true })}>
+                        <select {...register('gender', { required: true })} disabled={isRead}>
                             <option value="">Género</option>
                             <option value="Femenino">Femenino</option>
                             <option value="Masculino">Masculino</option>
@@ -143,6 +191,7 @@ const Professional: React.FC = () => {
                         type="text"
                         {...register('address', {required: true})}
                         placeholder='Dirección'
+                        disabled={isRead}
                         />
                         {errors.address && <span style={{fontSize: '12px', color: 'red', width: '80%'}}>Campo obligatorio</span>}
                     </div>
@@ -151,6 +200,7 @@ const Professional: React.FC = () => {
                         type="tel"
                         {...register('phone', {required: true})}
                         placeholder='Teléfono o celular'
+                        disabled={isRead}
                         />
                         {errors.phone && <span style={{fontSize: '12px', color: 'red', width: '80%'}}>Campo obligatorio</span>}
                     </div>
@@ -159,11 +209,12 @@ const Professional: React.FC = () => {
                         type="email"
                         {...register('email', {required: true})}
                         placeholder='Email'
+                        disabled={isRead}
                         />
                         {errors.email && <span style={{fontSize: '12px', color: 'red', width: '80%'}}>Campo obligatorio</span>}
                     </div>
                     <div className='container-create-input'>
-                        <select {...register('specialityID', { required: true })}>
+                        <select {...register('specialityID', { required: true })} disabled={isRead}>
                             <option value="">Especialidad</option>
                             {
                                 specialities.map((x) => {
@@ -175,6 +226,17 @@ const Professional: React.FC = () => {
                         </select>
                         {errors.specialityID && <span style={{fontSize: '12px', color: 'red'}}>Campo obligatorio</span>}
                     </div>
+                    {
+                        id &&
+                        <div className='container-create-input'>
+                            <select {...register('state', { required: true })} disabled={isRead}>
+                                <option value="Activo/a">Activo/a</option>
+                                <option value="Inactivo/a">Inactivo/a</option>
+                                <option value="Licencia">Licencia</option>
+                            </select>
+                            {errors.state && <span style={{fontSize: '12px', color: 'red', width: '80%'}}>Campo obligatorio</span>}
+                        </div>
+                    }
                     <div className='container-create-button'>
                         {
                             loading ?
@@ -182,12 +244,18 @@ const Professional: React.FC = () => {
                                 <div className='spinner-create-form'/>
                             </button>
                             :
+                            isRead ?
+                            <div />
+                            :
+                            id ?
+                            <button>Guardar</button>
+                            :
                             <button>Crear</button>
                         }
                     </div>
                 </form>
                 :
-                <span>¡Error! Para crear un profesional se necesitan especialidades.</span>
+                <span>¡Error! Para crear o editar un profesional se necesitan especialidades.</span>
             }
         </section>
     )

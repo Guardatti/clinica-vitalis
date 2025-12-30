@@ -3,12 +3,12 @@ import './workSchedules.css'
 import { CiSearch } from "react-icons/ci";
 import { useAppSelector } from '../../redux/hooks';
 import { useForm } from 'react-hook-form';
-import { MdVisibility, MdEdit } from "react-icons/md";
+import { MdEdit } from "react-icons/md";
 import type { IProfessional } from '../../utils/professionals';
 import { getProfessionals } from '../../fetch/fetchProfessionals';
 import { DAYS_OF_WEEK, type IWorkSchedule } from '../../utils/workSchedules';
 import { getWorkSchudles } from '../../fetch/fetchWorkSchudles';
-import { FaTrashAlt } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -23,6 +23,8 @@ const WorkSchedules: React.FC = () => {
 
     const [loading, setLoading] = useState<boolean>(false);
 
+    const navigate = useNavigate();
+
     const [workSchedules, setWorkSchedules] = useState<IWorkSchedule[]>([])
 
     const [professionals, setProfessionals] = useState<IProfessional[]>([])
@@ -36,8 +38,6 @@ const WorkSchedules: React.FC = () => {
         try {
             
             setLoading(true)
-
-            await new Promise(resolve => setTimeout(resolve, 1000)); 
 
             const response: IWorkSchedule[] = await getWorkSchudles(currentUser, data);
 
@@ -59,8 +59,6 @@ const WorkSchedules: React.FC = () => {
 
                 setLoading(true)
 
-                await new Promise(resolve => setTimeout(resolve, 1000)); 
-                
                 const [workSchedulesData, professionalsData] = await Promise.all([
                         getWorkSchudles(currentUser),
                         getProfessionals(currentUser),
@@ -89,7 +87,7 @@ const WorkSchedules: React.FC = () => {
             </div>
             <div className='container-workschedules-btn-and-form'>
                 <div className='container-btn-new-workschedule'>
-                    <button>+ Crear horario</button>
+                    <button onClick={() => navigate('/horarios/crear')}>+ Crear horario</button>
                 </div>
                 <form ref={form} onSubmit={handleSubmit(onSubmit)} className='form-workschedules'>
                     {
@@ -151,9 +149,7 @@ const WorkSchedules: React.FC = () => {
                                         <td>{DAYS_OF_WEEK[Number(x.dayOfWeek)]}</td>
                                         <td>{x.startTime} a {x.endTime}</td>
                                         <td className='container-icons-workschedule'>
-                                            <MdVisibility style={{color: '#546E7A', cursor: 'pointer', fontSize: '1rem'}}/>
-                                            <MdEdit style={{color: '#1976D2', cursor: 'pointer', fontSize: '1rem'}}/>
-                                            <FaTrashAlt style={{color: '#FF3B30', cursor: 'pointer', fontSize: '1rem'}}/>
+                                            <MdEdit style={{color: '#e29b00', cursor: 'pointer', fontSize: '1rem'}} onClick={() => navigate(`/horarios/editar/${x.id}`)}/>
                                         </td>
                                     </tr>
                                 )

@@ -7,7 +7,6 @@ import { MdEdit } from "react-icons/md";
 import type { ISpeciality } from '../../utils/speciality';
 import { getSpecialities } from '../../fetch/fetchSpecialities';
 import { useNavigate } from 'react-router-dom';
-import { FaTrashAlt } from 'react-icons/fa';
 
 
 
@@ -36,8 +35,6 @@ const Specialities: React.FC = () => {
             
             setLoading(true)
 
-            await new Promise(resolve => setTimeout(resolve, 1000)); 
-
             const response: ISpeciality[] = await getSpecialities(currentUser, data);
 
             setSpecialities(response);
@@ -58,8 +55,6 @@ const Specialities: React.FC = () => {
 
                 setLoading(true)
 
-                await new Promise(resolve => setTimeout(resolve, 1000)); 
-                
                 const response: ISpeciality[] = await getSpecialities(currentUser);
 
                 setSpecialities(response)
@@ -130,8 +125,7 @@ const Specialities: React.FC = () => {
                                             </span>
                                         </td>
                                         <td className='container-icons-speciality'>
-                                            <MdEdit style={{color: '#1976D2', cursor: 'pointer', fontSize: '1rem'}}/>
-                                            <FaTrashAlt style={{color: '#FF3B30', cursor: 'pointer', fontSize: '1rem'}}/>
+                                            <MdEdit style={{color: '#e29b00', cursor: 'pointer', fontSize: '1rem'}} onClick={() => navigate(`/especialidades/editar/${x.id}`)}/>
                                         </td>
                                     </tr>
                                 )

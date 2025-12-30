@@ -59,6 +59,32 @@ export const getPatients = async (currentUser: IUser | null, data: IData = {}) =
 
 }
 
+export const getPatientById = async (currentUser: IUser | null, id: string) => {
+
+    try {
+
+        const data = await fetch(`${API_URL}/patients/${id}`, {
+            method: "GET",
+            headers: {
+            "Content-Type": "application/json",
+            "x-token": currentUser?.token || ""
+            }
+        })
+
+        if (!data) {
+            throw new Error('El paciente no se encuentra en la base de datos');
+        }
+
+        const response = await data.json()
+        
+        return response.patient
+        
+    } catch (error) {
+        console.log(error);       
+    }
+
+}
+
 export const createPatient = async (currentUser: IUser | null, data: IPatient) => {
     
     try {
@@ -72,14 +98,69 @@ export const createPatient = async (currentUser: IUser | null, data: IPatient) =
             body: JSON.stringify(data)
         })
 
+        const resBody = await response.json()
+
         if (!response.ok) {
+
+            let errorMessage = "Ocurrió un error inesperado";
+
+            if (resBody.errors?.errors) {
+
+                errorMessage = resBody.errors.errors[0].msg; 
+
+            }
 
             Swal.fire({
                 icon: "error",
-                title: "¡Paciente ya existente!",
+                title: 'No se pudo crear el paciente',
+                text: errorMessage
             });
 
             return
+
+        }
+
+        return response
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
+export const updatePatient = async (currentUser: IUser | null, data: IPatient, id: string) => {
+    
+    try {
+
+        const response = await fetch(`${API_URL}/patients/${id}`, {
+            method: "PATCH",
+            headers: {
+            "Content-Type": "application/json",
+            "x-token": currentUser?.token || ""
+            },
+            body: JSON.stringify(data)
+        })
+
+        const resBody = await response.json()
+
+        if (!response.ok) {
+
+            let errorMessage = "Ocurrió un error inesperado";
+
+            if (resBody.errors?.errors) {
+
+                errorMessage = resBody.errors.errors[0].msg; 
+
+            }
+
+            Swal.fire({
+                icon: "error",
+                title: 'No se pudo actualizar el paciente',
+                text: errorMessage
+            });
+
+            return
+
         }
 
         return response

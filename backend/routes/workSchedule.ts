@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { check } from "express-validator";
-import { createWorkSchedule, getWorkSchedules, updateWorkSchedule } from "../controllers/workSchedule";
+import { createWorkSchedule, getWorkScheduleById, getWorkSchedules, updateWorkSchedule } from "../controllers/workSchedule";
 import { collectionErrors } from "../middlewares/collectionErrors";
 import { validatorJWT } from "../middlewares/validatorJWT";
 import { isAdmin } from "../middlewares/validatorAdmin";
@@ -16,6 +16,14 @@ router.get('/',
         collectionErrors
     ],
     getWorkSchedules
+);
+
+router.get('/:id',
+    [
+        validatorJWT,
+        collectionErrors
+    ],
+    getWorkScheduleById
 );
 
 router.post('/',
@@ -36,7 +44,7 @@ router.post('/',
     createWorkSchedule
 );
 
-router.put('/:id',
+router.patch('/:id',
     [
         validatorJWT,
         isAdmin,

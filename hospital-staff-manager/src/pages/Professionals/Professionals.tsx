@@ -8,7 +8,6 @@ import type { IProfessional } from '../../utils/professionals';
 import { getProfessionals } from '../../fetch/fetchProfessionals';
 import type { ISpeciality } from '../../utils/speciality';
 import { getSpecialities } from '../../fetch/fetchSpecialities';
-import { FaTrashAlt } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 
 
@@ -41,11 +40,9 @@ const Professionals: React.FC = () => {
             
             setLoading(true)
 
-            await new Promise(resolve => setTimeout(resolve, 1000)); 
-
             const response: IProfessional[] = await getProfessionals(currentUser, data);
 
-            setProfessionals(response)
+            setProfessionals(response.professionals)
 
         } catch (error) {
             console.log(error)
@@ -62,15 +59,13 @@ const Professionals: React.FC = () => {
             try {
 
                 setLoading(true)
-
-                await new Promise(resolve => setTimeout(resolve, 1000)); 
                 
                 const [professionalsData, specialtiesData] = await Promise.all([
                         getProfessionals(currentUser),
                         getSpecialities(currentUser)
                 ]);
 
-                setProfessionals(professionalsData)
+                setProfessionals(professionalsData.professionals)
 
                 setSpecialities(specialtiesData)
 
@@ -166,9 +161,8 @@ const Professionals: React.FC = () => {
                                             </span>
                                         </td>
                                         <td className='container-icons-professional'>
-                                            <MdVisibility style={{color: '#546E7A', cursor: 'pointer', fontSize: '1rem'}}/>
-                                            <MdEdit style={{color: '#1976D2', cursor: 'pointer', fontSize: '1rem'}}/>
-                                            <FaTrashAlt style={{color: '#FF3B30', cursor: 'pointer', fontSize: '1rem'}}/>
+                                            <MdVisibility style={{color: '#1976D2', cursor: 'pointer', fontSize: '1rem'}} onClick={() => navigate(`/profesionales/consultar/${x.id}`)}/>
+                                            <MdEdit style={{color: '#e29b00', cursor: 'pointer', fontSize: '1rem'}} onClick={() => navigate(`/profesionales/editar/${x.id}`)}/>
                                         </td>
                                     </tr>
                                 )

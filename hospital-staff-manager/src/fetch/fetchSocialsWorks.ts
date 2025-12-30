@@ -48,6 +48,32 @@ export const getSocialsWorks = async (currentUser: IUser | null, data: IData = {
 
 }
 
+export const getSocialWorkById = async (currentUser: IUser | null, id: string) => {
+
+    try {
+
+        const data = await fetch(`${API_URL}/socials_works/${id}`, {
+            method: "GET",
+            headers: {
+            "Content-Type": "application/json",
+            "x-token": currentUser?.token || ""
+            }
+        })
+
+        if (!data) {
+            throw new Error('La obra social no se encuentra en la base de datos');
+        }
+
+        const response = await data.json()
+
+        return response.socialWork
+        
+    } catch (error) {
+        console.log(error);       
+    }
+
+}
+
 export const createSocialWork = async (currentUser: IUser | null, data: ISocialWork) => {
     
     try {
@@ -61,14 +87,69 @@ export const createSocialWork = async (currentUser: IUser | null, data: ISocialW
             body: JSON.stringify(data)
         })
 
+        const resBody = await response.json()
+
         if (!response.ok) {
+
+            let errorMessage = "Ocurrió un error inesperado";
+
+            if (resBody.errors?.errors) {
+
+                errorMessage = resBody.errors.errors[0].msg; 
+
+            }
 
             Swal.fire({
                 icon: "error",
-                title: "¡Obra social ya existente!",
+                title: 'No se pudo crear la obra social',
+                text: errorMessage
             });
 
             return
+
+        }
+
+        return response
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
+export const updateSocialWork = async (currentUser: IUser | null, data: ISocialWork, id: string) => {
+    
+    try {
+
+        const response = await fetch(`${API_URL}/socials_works/${id}`, {
+            method: "PATCH",
+            headers: {
+            "Content-Type": "application/json",
+            "x-token": currentUser?.token || ""
+            },
+            body: JSON.stringify(data)
+        })
+
+        const resBody = await response.json()
+
+        if (!response.ok) {
+
+            let errorMessage = "Ocurrió un error inesperado";
+
+            if (resBody.errors?.errors) {
+
+                errorMessage = resBody.errors.errors[0].msg; 
+
+            }
+
+            Swal.fire({
+                icon: "error",
+                title: 'No se pudo actualizar la obra social',
+                text: errorMessage
+            });
+
+            return
+
         }
 
         return response

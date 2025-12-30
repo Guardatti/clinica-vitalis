@@ -1,32 +1,39 @@
 import Swal from "sweetalert2";
 import type { IUser } from "../utils/interfaceFormRegister_Login/interface";
 import { API_URL } from "../utils/util";
-import type { IWorkSchedule } from "../utils/workSchedules";
+import type { IAppointment } from "../utils/appointments";
+
 
 
 
 interface IData {
+    search?: string;
     professionalID?: string;
-    dayOfWeek?: string;
+    state?: string;
+
 }
 
-export const getWorkSchudles = async (currentUser: IUser | null, data: IData = {}) => {
+export const getAppointments = async (currentUser: IUser | null, data: IData = {}) => {
 
     const params: Record<string, string> = {};
     
+    if (data.search) {
+        params.search = data.search;
+    }
+
     if (data.professionalID) {
         params.professionalID = data.professionalID;
     }
 
-    if (data.dayOfWeek) {
-        params.dayOfWeek = data.dayOfWeek;
+    if (data.state) {
+        params.state = data.state;
     }
 
     const queryString = new URLSearchParams(params).toString();
 
     try {
 
-        const data = await fetch(`${API_URL}/work_schedules?${queryString}`, {
+        const data = await fetch(`${API_URL}/appointments?${queryString}`, {
             method: "GET",
             headers: {
             "Content-Type": "application/json",
@@ -35,12 +42,12 @@ export const getWorkSchudles = async (currentUser: IUser | null, data: IData = {
         })
 
         if (!data) {
-            throw new Error('No hay horarios cargados en el sistema');
+            throw new Error('No hay turnos cargados en el sistema');
         }
 
         const response = await data.json()
         
-        return response.schedules
+        return response
         
     } catch (error) {
         console.log(error);       
@@ -48,11 +55,11 @@ export const getWorkSchudles = async (currentUser: IUser | null, data: IData = {
 
 }
 
-export const getWorkScheduleById = async (currentUser: IUser | null, id: string) => {
+export const getAppointmentsById = async (currentUser: IUser | null, id: string) => {
 
     try {
 
-        const data = await fetch(`${API_URL}/work_schedules/${id}`, {
+        const data = await fetch(`${API_URL}/appointments/${id}`, {
             method: "GET",
             headers: {
             "Content-Type": "application/json",
@@ -61,12 +68,12 @@ export const getWorkScheduleById = async (currentUser: IUser | null, id: string)
         })
 
         if (!data) {
-            throw new Error('El horario de trabajo no se encuentra en la base de datos');
+            throw new Error('El turno no se encuentra en la base de datos');
         }
 
         const response = await data.json()
         
-        return response.workSchedule
+        return response.appointment
         
     } catch (error) {
         console.log(error);       
@@ -74,11 +81,12 @@ export const getWorkScheduleById = async (currentUser: IUser | null, id: string)
 
 }
 
-export const createWorkSchedule = async (currentUser: IUser | null, data: IWorkSchedule) => {
+
+export const createAppointment = async (currentUser: IUser | null, data: IAppointment) => {
     
     try {
 
-        const response = await fetch(`${API_URL}/work_schedules`, {
+        const response = await fetch(`${API_URL}/appointments`, {
             method: "POST",
             headers: {
             "Content-Type": "application/json",
@@ -87,7 +95,7 @@ export const createWorkSchedule = async (currentUser: IUser | null, data: IWorkS
             body: JSON.stringify(data)
         })
 
-        const resBody = await response.json()
+        const resBody = await response.json();
 
         if (!response.ok) {
 
@@ -101,15 +109,15 @@ export const createWorkSchedule = async (currentUser: IUser | null, data: IWorkS
 
             Swal.fire({
                 icon: "error",
-                title: 'No se pudo crear el horario',
-                text: errorMessage
+                title: "No se pudo crear el turno",
+                text: errorMessage,
             });
 
             return
 
         }
 
-        return response
+        return resBody
 
     } catch (error) {
         console.log(error);
@@ -117,11 +125,11 @@ export const createWorkSchedule = async (currentUser: IUser | null, data: IWorkS
 
 }
 
-export const updateWorkSchedule = async (currentUser: IUser | null, data: IWorkSchedule, id: string) => {
+export const updateAppointment = async (currentUser: IUser | null, data: IAppointment, id: string) => {
     
     try {
 
-        const response = await fetch(`${API_URL}/work_schedules/${id}`, {
+        const response = await fetch(`${API_URL}/appointments/${id}`, {
             method: "PATCH",
             headers: {
             "Content-Type": "application/json",
@@ -130,7 +138,7 @@ export const updateWorkSchedule = async (currentUser: IUser | null, data: IWorkS
             body: JSON.stringify(data)
         })
 
-        const resBody = await response.json()
+        const resBody = await response.json();
 
         if (!response.ok) {
 
@@ -144,12 +152,22 @@ export const updateWorkSchedule = async (currentUser: IUser | null, data: IWorkS
 
             Swal.fire({
                 icon: "error",
-                title: 'No se pudo actualizar el horario',
-                text: errorMessage
+                title: "No se pudo crear el turno",
+                text: errorMessage,
             });
 
             return
 
+        }
+
+        if (!response.ok) {
+
+            Swal.fire({
+                icon: "error",
+                title: "¡Ha ocurrido un problema!",
+            });
+
+            return
         }
 
         return response

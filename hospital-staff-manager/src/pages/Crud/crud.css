@@ -63,6 +63,16 @@
     color: var(--color-text);
 }
 
+.container-create-input textarea {
+    width: 100%;
+    resize: none;
+    padding: 0.5rem;
+    background-color: transparent;
+    border-radius: 5px;
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+}
+
 .container-create-input select {
     width: 100%;
     padding: 0.5rem;

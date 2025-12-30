@@ -7,7 +7,6 @@ import type { ISocialWork } from '../../utils/socialsWorks';
 import { getSocialsWorks } from '../../fetch/fetchSocialsWorks';
 import { MdVisibility, MdEdit } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
-import { FaTrashAlt } from 'react-icons/fa';
 
 
 
@@ -36,8 +35,6 @@ const SocialsWorks: React.FC = () => {
             
             setLoading(true)
 
-            await new Promise(resolve => setTimeout(resolve, 1000)); 
-
             const response: ISocialWork[] = await getSocialsWorks(currentUser, data);
 
             setSocialsWorks(response);
@@ -57,8 +54,6 @@ const SocialsWorks: React.FC = () => {
             try {
 
                 setLoading(true)
-
-                await new Promise(resolve => setTimeout(resolve, 1000)); 
                 
                 const response: ISocialWork[] = await getSocialsWorks(currentUser);
 
@@ -130,9 +125,8 @@ const SocialsWorks: React.FC = () => {
                                             </span>
                                         </td>
                                         <td className='container-icons-social-work'>
-                                            <MdVisibility style={{color: '#546E7A', cursor: 'pointer', fontSize: '1rem'}}/>
-                                            <MdEdit style={{color: '#1976D2', cursor: 'pointer', fontSize: '1rem'}}/>
-                                            <FaTrashAlt style={{color: '#FF3B30', cursor: 'pointer', fontSize: '1rem'}}/>
+                                            <MdVisibility style={{color: '#1976D2', cursor: 'pointer', fontSize: '1rem'}} onClick={() => navigate(`/obras_sociales/consultar/${x.id}`)}/>
+                                            <MdEdit style={{color: '#e29b00', cursor: 'pointer', fontSize: '1rem'}} onClick={() => navigate(`/obras_sociales/editar/${x.id}`)}/>
                                         </td>
                                     </tr>
                                 )

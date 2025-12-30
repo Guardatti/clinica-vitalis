@@ -4,7 +4,7 @@ import { collectionErrors } from "../middlewares/collectionErrors";
 import { check } from "express-validator";
 import { existNameSocialWork, existNameSocialWorkById } from "../helpers/validationsDB";
 import { isAdmin } from "../middlewares/validatorAdmin";
-import { createSocialWork, getSocialsWorks, updateSocialWork } from "../controllers/socialsWorks";
+import { createSocialWork, getSocialsWorks, getSocialWorkById, updateSocialWork } from "../controllers/socialsWorks";
 
 
 
@@ -16,6 +16,14 @@ router.get('/',
         collectionErrors
     ],
     getSocialsWorks
+)
+
+router.get('/:id',
+    [
+        validatorJWT,
+        collectionErrors
+    ],
+    getSocialWorkById
 )
 
 router.post('/',

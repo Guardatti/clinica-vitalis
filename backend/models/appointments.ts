@@ -41,7 +41,7 @@ export const Appointments = sequelize.define<AppointementInstance>('Turnos', {
     },
     date: {
         type: DataTypes.DATE,
-        allowNull: false,
+        allowNull: false
     },
     description: {
         type: DataTypes.STRING,

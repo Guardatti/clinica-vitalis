@@ -69,6 +69,36 @@ export const getSocialsWorks = async (req: Request, res: Response) => {
 
 }
 
+export const getSocialWorkById = async (req: Request, res: Response) => {
+
+    try {
+        
+        const { id } = req.params;
+
+        const socialWork = await SocialsWorks.findByPk(id)
+
+        if (!socialWork) {
+
+            res.status(404).json({
+                msg: "No hay obra social cargada en el sistema"
+            })
+
+            return
+        }
+
+        res.status(200).json({
+            socialWork
+        })
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            msg: 'Error del servidor'
+        })
+    }
+
+}
+
 export const updateSocialWork = async (req: Request, res: Response) => {
 
     const data = req.body;

@@ -48,6 +48,32 @@ export const getSpecialities = async (currentUser: IUser | null, data: IData = {
 
 }
 
+export const getSpecialityById = async (currentUser: IUser | null, id: string) => {
+
+    try {
+
+        const data = await fetch(`${API_URL}/specialities/${id}`, {
+            method: "GET",
+            headers: {
+            "Content-Type": "application/json",
+            "x-token": currentUser?.token || ""
+            }
+        })
+
+        if (!data) {
+            throw new Error('La especialidad no se encuentra en la base de datos');
+        }
+
+        const response = await data.json()
+        
+        return response.speciality
+        
+    } catch (error) {
+        console.log(error);       
+    }
+
+}
+
 export const createSpeciality = async (currentUser: IUser | null, data: ISpeciality) => {
     
     try {
@@ -61,14 +87,69 @@ export const createSpeciality = async (currentUser: IUser | null, data: ISpecial
             body: JSON.stringify(data)
         })
 
+        const resBody = await response.json()
+
         if (!response.ok) {
+
+            let errorMessage = "Ocurrió un error inesperado";
+
+            if (resBody.errors?.errors) {
+
+                errorMessage = resBody.errors.errors[0].msg; 
+
+            }
 
             Swal.fire({
                 icon: "error",
-                title: "¡Especialidad ya existente!",
+                title: 'No se pudo crear la especialidad',
+                text: errorMessage
             });
 
             return
+
+        }
+
+        return response
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
+export const updateSpeciality = async (currentUser: IUser | null, data: ISpeciality, id: string) => {
+    
+    try {
+
+        const response = await fetch(`${API_URL}/specialities/${id}`, {
+            method: "PATCH",
+            headers: {
+            "Content-Type": "application/json",
+            "x-token": currentUser?.token || ""
+            },
+            body: JSON.stringify(data)
+        })
+
+        const resBody = await response.json()
+
+        if (!response.ok) {
+
+            let errorMessage = "Ocurrió un error inesperado";
+
+            if (resBody.errors?.errors) {
+
+                errorMessage = resBody.errors.errors[0].msg; 
+
+            }
+
+            Swal.fire({
+                icon: "error",
+                title: 'No se pudo actualizar la especialidad',
+                text: errorMessage
+            });
+
+            return
+
         }
 
         return response

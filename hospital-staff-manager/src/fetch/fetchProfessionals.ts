@@ -51,7 +51,33 @@ export const getProfessionals = async (currentUser: IUser | null, data: IData = 
 
         const response = await data.json()
 
-        return response.professionals
+        return response
+        
+    } catch (error) {
+        console.log(error);       
+    }
+
+}
+
+export const getProfessionalById = async (currentUser: IUser | null, id: string) => {
+
+    try {
+
+        const data = await fetch(`${API_URL}/professionals/${id}`, {
+            method: "GET",
+            headers: {
+            "Content-Type": "application/json",
+            "x-token": currentUser?.token || ""
+            }
+        })
+
+        if (!data) {
+            throw new Error('El profesional no se encuentra en la base de datos');
+        }
+
+        const response = await data.json()
+        
+        return response.professional
         
     } catch (error) {
         console.log(error);       
@@ -72,14 +98,69 @@ export const createProfessional = async (currentUser: IUser | null, data: IProfe
             body: JSON.stringify(data)
         })
 
+        const resBody = await response.json()
+
         if (!response.ok) {
+
+            let errorMessage = "Ocurrió un error inesperado";
+
+            if (resBody.errors?.errors) {
+
+                errorMessage = resBody.errors.errors[0].msg; 
+
+            }
 
             Swal.fire({
                 icon: "error",
-                title: "¡Profesional ya existente!",
+                title: 'No se pudo crear al profesional',
+                text: errorMessage
             });
 
             return
+
+        }
+
+        return response
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
+export const updateProfessional = async (currentUser: IUser | null, data: IProfessional, id: string) => {
+    
+    try {
+
+        const response = await fetch(`${API_URL}/professionals/${id}`, {
+            method: "PATCH",
+            headers: {
+            "Content-Type": "application/json",
+            "x-token": currentUser?.token || ""
+            },
+            body: JSON.stringify(data)
+        })
+
+        const resBody = await response.json()
+
+        if (!response.ok) {
+
+            let errorMessage = "Ocurrió un error inesperado";
+
+            if (resBody.errors?.errors) {
+
+                errorMessage = resBody.errors.errors[0].msg; 
+
+            }
+
+            Swal.fire({
+                icon: "error",
+                title: 'No se pudo actualizar al profesional',
+                text: errorMessage
+            });
+
+            return
+
         }
 
         return response
