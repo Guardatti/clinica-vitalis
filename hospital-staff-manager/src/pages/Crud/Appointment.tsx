@@ -77,7 +77,7 @@ const Appointment: React.FC = () => {
                         draggable: true
                     });
 
-                    navigate('/turnos')
+                    navigate(-1)
 
                 }
 
