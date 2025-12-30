@@ -9,7 +9,6 @@ import type { IProfessional } from '../../utils/professionals';
 import { getProfessionals } from '../../fetch/fetchProfessionals';
 import type { IAppointment } from '../../utils/appointments';
 import { getAppointments } from '../../fetch/fetchAppointements';
-import { format } from 'date-fns';
 
 
 
@@ -34,6 +33,11 @@ const Appointments: React.FC = () => {
     const form = useRef<HTMLFormElement>(null);
 
     const navigate = useNavigate()
+    
+    const formatDate = (date: string) => {
+        const [year, month, day] = date.split('-');
+        return `${day}/${month}/${year}`;
+    };
 
     const onSubmit = async (data: FormData) => {
 
@@ -148,8 +152,8 @@ const Appointments: React.FC = () => {
                                 return(
                                     <tr key={x.id}>
                                         <td>{x.Paciente?.name} {x.Paciente?.surname}</td>
-                                        <td>{format(new Date(x.date), "dd/MM/yyyy")}</td>
-                                        <td>{format(new Date(x.date), "HH:mm")}</td>
+                                        <td>{formatDate(x.date)}</td>
+                                        <td>{x.time}</td>
                                         <td>
                                             <span style={{
                                                 color: x.state === 'Pendiente' ? '#1565C0' : 

@@ -4,7 +4,7 @@ import { collectionErrors } from "../middlewares/collectionErrors";
 import { check } from "express-validator";
 import { createAppointment, getAppointmentById, getAppointments, updateAppointment } from "../controllers/appointments";
 import { isAdmin } from "../middlewares/validatorAdmin";
-import { checkAppointmentAvailability, checkProfessionalSchedule, existDNIPatientById, existDNIProfessionalById } from "../helpers/validationsDB";
+import { checkAppointmentAvailability, checkPatientAvailability, checkProfessionalSchedule, existDNIPatientById, existDNIProfessionalById } from "../helpers/validationsDB";
 
 
 
@@ -35,8 +35,10 @@ router.post('/',
         check("professionalID", "El profesional es obligatorio").not().isEmpty(),
         check("professionalID").custom(existDNIProfessionalById),
         check("date", "La fecha es obligatoria").not().isEmpty(),
-        check("date").custom(checkAppointmentAvailability),
-        check("date").custom(checkProfessionalSchedule),
+        check("date").custom(checkPatientAvailability),
+        check("time", "El horario es obligatorio").not().isEmpty(),
+        check().custom(checkAppointmentAvailability),
+        check().custom(checkProfessionalSchedule),
         check("description", "La descripción es obligatoria").not().isEmpty(),
         collectionErrors
     ],
@@ -52,8 +54,10 @@ router.patch('/:id',
         check("professionalID", "El profesional es obligatorio").not().isEmpty(),
         check("professionalID").custom(existDNIProfessionalById),
         check("date", "La fecha es obligatoria").not().isEmpty(),
-        check("date").custom(checkAppointmentAvailability),
-        check("date").custom(checkProfessionalSchedule),
+        check("date").custom(checkPatientAvailability),
+        check("time", "El horario es obligatorio").not().isEmpty(),
+        check().custom(checkAppointmentAvailability),
+        check().custom(checkProfessionalSchedule),
         check("description", "La descripción es obligatoria").not().isEmpty(),
         check("state", "El estado es obligatorio").not().isEmpty(),
         collectionErrors

@@ -207,25 +207,19 @@ export const existSpecialityById = async (id: number) => {
 
 }
 
-export const checkAppointmentAvailability = async (date: string, {req}: any) => {
+export const checkAppointmentAvailability = async (_value: any, {req}: any) => {
 
-    const professionalID = req.body.professionalID;
-    const time = req.body.time;
+    const { professionalID, date, time } = req.body;
     const idToIgnore = req.params?.id;
 
     if (!professionalID || !time || !date) {
         return true;
     }
 
-    const fullDate = new Date(`${date}T${time}:00`);
-
-    if (isNaN(fullDate.getTime())) {
-        throw new Error("La fecha u hora proporcionada no es válida");
-    }
-
     const whereCondition: any = {
         professionalID: professionalID,
-        date: fullDate
+        date: date,
+        time: time
     };
 
     if (idToIgnore) {
@@ -237,21 +231,21 @@ export const checkAppointmentAvailability = async (date: string, {req}: any) => 
     });
 
     if (appointmentExists) {
-        // Mensaje más amigable
         throw new Error(`El profesional ya tiene un turno ocupado el ${date} a las ${time}`);
     }
 
 }
 
-export const checkProfessionalSchedule = async (date: string, { req }: any) => {
+export const checkProfessionalSchedule = async (_: any, { req }: any) => {
     
-    const professionalID = req.body.professionalID;
-    const time = req.body.time;
+    const { professionalID, date, time } = req.body;
 
-    if (!professionalID || !time || !date) return true;
+    if (!professionalID || !date || !time) {
+        return true;
+    }
 
     const fullDate = new Date(`${date}T${time}:00`);
-    
+
     if (isNaN(fullDate.getTime())) {
         throw new Error("Formato de fecha u hora inválido");
     }
@@ -301,4 +295,31 @@ export const checkTimeRange: CustomValidator = (endTime, { req }) => {
     }
     
     return true;
+};
+
+export const checkPatientAvailability = async (date: string, { req }: any) => {
+
+    const patientID = req.body.patientID;
+    const time = req.body.time;
+    const idToIgnore = req.params?.id;
+
+    if (!patientID || !time || !date) return true;
+
+    const where: any = {
+        patientID,
+        date,
+        time
+    };
+
+    if (idToIgnore) {
+        where.id = { [Op.ne]: idToIgnore };
+    }
+
+    const exists = await Appointments.findOne({ where });
+
+    if (exists) {
+        throw new Error(
+            `El paciente ya tiene un turno el ${date} a las ${time}`
+        );
+    }
 };

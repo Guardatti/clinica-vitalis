@@ -112,29 +112,10 @@ const Appointment: React.FC = () => {
 
                     const data = await getAppointmentsById(currentUser, id)
 
-                    let datePart = '';
-                    let timePart = '';
-
-                    if (data.date) {
-
-                        const dateObj = new Date(data.date);
-                        
-                        datePart = dateObj.toLocaleDateString('en-CA');
-
-                        timePart = dateObj.toLocaleTimeString('es-AR', {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            hour12: false
-                        });
-
-                        if (timePart.length === 4) timePart = "0" + timePart;
-
-                    }
-
                     reset({
                         ...data,
-                        date: datePart,
-                        time: timePart
+                        date: data.date?.slice(0, 10),
+                        time: data.time?.slice(0, 5)
                     })
 
                 }
@@ -212,7 +193,7 @@ const Appointment: React.FC = () => {
                             {
                                 schedules.map((x) => {
                                     return(
-                                        <option key={x.id}>{x.value}</option>
+                                        <option key={x.id} value={x.value}>{x.value}</option>
                                     )
                                 })
                             }

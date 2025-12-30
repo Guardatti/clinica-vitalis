@@ -3,7 +3,7 @@ export interface IAppointment {
     patientID: string,
     professionalID: string
     date: string,
-    time?: string,
+    time: string,
     description: string,
     state?: string,
     Paciente?:{

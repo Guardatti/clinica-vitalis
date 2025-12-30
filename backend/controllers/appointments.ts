@@ -10,24 +10,11 @@ import { STATES_APPOINTMENTS } from "../helpers/constants";
 
 export const createAppointment = async (req: Request, res: Response) => {
 
-    const {patientID, professionalID, date, time, description} = req.body;
+    const data = req.body;
 
     try {
-        
-        const dateTimeString = `${date}T${time}:00`;
 
-        const appointmentDate = new Date(dateTimeString);
-
-        if (isNaN(appointmentDate.getTime())) {
-            return res.status(400).json({ msg: 'Fecha u hora inválida' });
-        }
-
-        const appointment = await Appointments.create({
-            patientID,
-            professionalID,
-            date: appointmentDate,
-            description
-        })
+        const appointment = await Appointments.create(data)
 
         res.status(201).json({
             appointment
@@ -48,6 +35,10 @@ const noshowAppointments = async () => {
         
         const now = new Date()
 
+        const today = now.toISOString().slice(0, 10);
+
+        const currentTime = now.toTimeString().slice(0, 5);
+
         await Appointments.update(
             {
                 state: STATES_APPOINTMENTS.noshow
@@ -55,7 +46,17 @@ const noshowAppointments = async () => {
             {
                 where: {
                     state: STATES_APPOINTMENTS.pending,
-                    date: { [Op.lt]: now }
+                    [Op.or]: [
+                        // Turnos de días anteriores
+                        {
+                            date: { [Op.lt]: today }
+                        },
+                        // Turnos de hoy pero con hora pasada
+                        {
+                            date: today,
+                            time: { [Op.lt]: currentTime }
+                        }
+                    ]
                 }
             }
         )
@@ -143,7 +144,7 @@ export const getAppointments = async (req: Request, res: Response) => {
                         attributes: ['name', 'surname', 'dni'],
                     }
                 ],
-                order: [['date', 'ASC']]
+                order: [['time', 'ASC']]
             }
         )
 
@@ -219,7 +220,7 @@ export const getAppointmentById = async (req: Request, res: Response) => {
 
 export const updateAppointment = async (req: Request, res: Response) => {
 
-    const {patientID, professionalID, date, time, description, state} = req.body;
+    const data = req.body;
 
     const id = req.params.id
 
@@ -241,21 +242,7 @@ export const updateAppointment = async (req: Request, res: Response) => {
             return
         }
 
-        const dateTimeString = `${date}T${time}:00`;
-
-        const appointmentDate = new Date(dateTimeString);
-
-        if (isNaN(appointmentDate.getTime())) {
-            return res.status(400).json({ msg: 'Fecha u hora inválida' });
-        }
-
-        await appointment.update({
-            patientID,
-            professionalID,
-            date: appointmentDate,
-            description,
-            state
-        });
+        await appointment.update(data);
 
         res.status(200).json({
             appointment

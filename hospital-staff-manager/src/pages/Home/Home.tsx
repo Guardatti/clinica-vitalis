@@ -99,7 +99,7 @@ const Home: React.FC = () => {
                                         appointments.map((x) => {
                                             return(
                                                 <tr key={x.id}>
-                                                    <td>{format(new Date(x.date), "HH:mm")}</td>
+                                                    <td>{x.time}</td>
                                                     <td>{x.Paciente?.name} {x.Paciente?.surname}</td>
                                                     <td>{x.Profesionale?.name} {x.Profesionale?.surname}</td>
                                                     <td>

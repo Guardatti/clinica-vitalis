@@ -8,7 +8,8 @@ export interface IAppointment {
     id: number;
     patientID: number;
     professionalID: number;
-    date: Date;
+    date: string;
+    time: string;
     description: string;
     state?: string;
 }
@@ -40,7 +41,11 @@ export const Appointments = sequelize.define<AppointementInstance>('Turnos', {
         }
     },
     date: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
+        allowNull: false
+    },
+    time: {
+        type: DataTypes.TIME,
         allowNull: false
     },
     description: {
@@ -56,8 +61,13 @@ export const Appointments = sequelize.define<AppointementInstance>('Turnos', {
     indexes: [
         {
             unique: true,
-            fields: ['professionalID', 'date'],
-            name: 'unique_appointment_per_pro'
+            fields: ['patientID', 'date', 'time'],
+            name: 'unique_appointment_per_patient'
+        },
+        {
+            unique: true,
+            fields: ['professionalID', 'date','time'],
+            name: 'unique_appointment_per_pro' 
         }
     ]
 });
