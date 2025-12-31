@@ -4,7 +4,7 @@
 
 **Clínica Vitalis** es una plataforma administrativa diseñada para optimizar el flujo de trabajo interno. Este proyecto resuelve la necesidad de gestionar el personal médico y realizar la admisión de pacientes, enfocándose en la **asignación eficiente de recursos**.
 
-El objetivo principal fue construir un **MVP (Producto Mínimo Viable)** robusto utilizando el stack MERN con TypeScript, demostrando el manejo de bases de datos relacionales
+El objetivo principal fue construir un **MVP (Producto Mínimo Viable)** robusto utilizando el stack MERN con TypeScript, demostrando el manejo de bases de datos relacionales.
 
 ## ✨ Características Principales
 
